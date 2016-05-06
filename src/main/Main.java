@@ -15,8 +15,7 @@ public class Main {
 
     public static int generateRandomID()
     {
-        int answer = randomWithRange(100000000,999999999);
-        return answer;
+        return randomWithRange(100000000,999999999);
     }
 
     public static String generateRandomName()
