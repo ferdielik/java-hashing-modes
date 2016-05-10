@@ -3,6 +3,7 @@ package main;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.List;
 
 public class Main {
 
@@ -53,6 +54,8 @@ public class Main {
 
             // The name of the file to open.
             String file = "Users.txt";
+            List<String> Std_No= new ArrayList();
+            List<String> Std_Name=new ArrayList();
 
             // This will reference one line at a time
             String line = null;
@@ -71,10 +74,13 @@ public class Main {
                        String[] parts=line.split(";");
                     String stdNo=parts[0];
                     String name=parts[1];
-                    System.out.println(stdNo);
+                   // System.out.println(stdNo);
+                    Std_No.add(stdNo);
+                    Std_Name.add(name);
+
                   //  System.out.println(name);
                 }
-
+                System.out.print(hashDivision(Std_No));
                 // Always close files.
                 bufferedReader.close();
             }
@@ -91,6 +97,30 @@ public class Main {
                 // ex.printStackTrace();
             }
         }
+        public static int hashDivision(List No)
+        {
+            int[] foo = new int[20];
+           int i;
+            for (i=0;i<No.size();i++)
+            {
+                foo[i]=Integer.parseInt((String) No.get(i));
+
+            }
+            int[] modfoo=new int [20];
+            modfoo[1]=foo[1]%10;
+
+
+            return modfoo[1];
+
+
+
+
+
+
+
+        }
+
+
     }
 
 
