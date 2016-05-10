@@ -67,8 +67,12 @@ public class Main {
                         new BufferedReader(fileRead);
 
                 while((line = bufferedReader.readLine()) != null) {
-                        System.out.println(line);
 
+                       String[] parts=line.split(";");
+                    String stdNo=parts[0];
+                    String name=parts[1];
+                    System.out.println(stdNo);
+                  //  System.out.println(name);
                 }
 
                 // Always close files.
