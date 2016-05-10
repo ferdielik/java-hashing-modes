@@ -1,8 +1,6 @@
 package main;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,6 +10,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 
         createRandomText(20);
+        readFromFile();
 
     }
 
@@ -50,5 +49,45 @@ public class Main {
         return (int) (Math.random() * range) + min;
     }
 
+        public static void readFromFile(){
 
-}
+            // The name of the file to open.
+            String file = "Users.txt";
+
+            // This will reference one line at a time
+            String line = null;
+
+            try {
+                // FileReader reads text files in the default encoding.
+                FileReader fileRead =
+                        new FileReader(file);
+
+                // Always wrap FileReader in BufferedReader.
+                BufferedReader bufferedReader =
+                        new BufferedReader(fileRead);
+
+                while((line = bufferedReader.readLine()) != null) {
+                        System.out.println(line);
+
+                }
+
+                // Always close files.
+                bufferedReader.close();
+            }
+            catch(FileNotFoundException ex) {
+                System.out.println(
+                        "Unable to open file '" +
+                                file + "'");
+            }
+            catch(IOException ex) {
+                System.out.println(
+                        "Error reading file '"
+                                + file + "'");
+                // Or we could just do this:
+                // ex.printStackTrace();
+            }
+        }
+    }
+
+
+
