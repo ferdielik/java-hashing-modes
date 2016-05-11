@@ -97,7 +97,7 @@ public class Main {
                 // ex.printStackTrace();
             }
         }
-        public static int hashDivision(List No)
+        public static int hashDivision(List No)//Taslak
         {
             int[] foo = new int[20];
            int i;
@@ -112,7 +112,7 @@ public class Main {
 
             return modfoo[1];
         }
-    public static int hashPowMid(List No)
+    public static int hashPowMid(List No)//Taslak
     {
 
         int[] modPowMid=new int [20];
@@ -156,7 +156,7 @@ public class Main {
         return modPowMid[0];
 
     }
-    public static int hashFolding(List No)
+    public static int hashFolding(List No)//Taslak
     {
         int[] folding=new int[20];
         int[] modFolding=new int [20];
