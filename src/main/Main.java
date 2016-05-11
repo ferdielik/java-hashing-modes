@@ -111,14 +111,78 @@ public class Main {
 
 
             return modfoo[1];
+        }
+    public static int hashPowMid(List No)
+    {
 
-
-
-
-
-
+        int[] modPowMid=new int [20];
+        int[] powmid=new int [20];
+        int pow=0;
+        int i=0;
+        for (i=0;i<No.size();i++)
+        {
+            powmid[i]=Integer.parseInt((String) No.get(i));
 
         }
+      int firstIn=0;
+        pow=powmid[0]*powmid[0];
+       while(pow>0)
+       {
+           pow=pow/10;
+           firstIn++;
+       }
+        pow=powmid[0]*powmid[0];
+        int middle=((firstIn+1)/2)-1;
+        int[]powNum=new int[50];
+        int a=1;
+        for(i=1;i<firstIn;i++)
+        {
+            a=a*10;
+        }
+        int temp=0;
+        for(i=0;i<firstIn;i++)
+        {
+            temp=pow/a;
+            powNum[i]=temp;
+            pow=pow%a;
+            a=a/10;
+        }
+        int middStep=0;
+        int midStepRight = 0;
+        middStep=powNum[middle];
+        modPowMid[0]=middStep*10+midStepRight;
+        modPowMid[0]=modPowMid[0]%10;
+
+        return modPowMid[0];
+
+    }
+    public static int hashFolding(List No)
+    {
+        int[] folding=new int[20];
+        int[] modFolding=new int [20];
+        int i=0;
+        for (i=0;i<No.size();i++)
+        {
+            folding[i]=Integer.parseInt((String) No.get(i));
+
+        }
+        int num1,num2,num3;
+        int sum=0;
+        num1=folding[0]/1000000;
+        folding[0]=folding[0]%1000000;
+        num2=folding[0]%1000;
+        num3=folding[0]/1;
+        sum=num1+num2+num3;
+        modFolding[0]=sum%10;
+        return modFolding[0];
+
+
+
+
+
+    }
+
+
 
 
     }
