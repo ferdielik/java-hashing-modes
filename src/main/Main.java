@@ -1,5 +1,6 @@
 package main;
 
+
 import java.io.*;
 import java.util.*;
 
@@ -9,8 +10,8 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 
         createRandomText(20);
-        //readFromFile();
-        createHashTable();
+        readFromFile();
+       // createHashTable(); //Taslak Hash Table
 
 
     }
@@ -105,7 +106,11 @@ public class Main {
 
         }
         int[] modfoo = new int[20];
-        modfoo[1] = foo[1] % 10;
+       for(i=0;i<20;i++)
+       {
+           modfoo[foo[i]%10]=Integer.parseInt((String)No.get(i));
+
+       }
 
 
         return modfoo[1];
