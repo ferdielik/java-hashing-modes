@@ -1,43 +1,45 @@
 package main;
 
-
 import java.io.*;
 import java.util.*;
 
-public class Main {
-
-
-    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
+public class Main
+{
+    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException
+    {
 
         createRandomText(20);
         readFromFile();
-       // createHashTable(); //Taslak Hash Table
-
+        // createHashTable(); //Taslak Hash Table
 
     }
 
-
-    public static void createRandomText(int size) throws FileNotFoundException, UnsupportedEncodingException {
+    public static void createRandomText(int size) throws FileNotFoundException, UnsupportedEncodingException
+    {
         PrintWriter writer = new PrintWriter("Users.txt", "UTF-8");
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++)
+        {
             writer.println(generateRandomID() + ";" + generateRandomName());
 
         }
         writer.close();
     }
 
-    public static int generateRandomID() {
+    public static int generateRandomID()
+    {
         return randomWithRange(100000000, 999999999);
     }
 
-    public static String generateRandomName() {
+    public static String generateRandomName()
+    {
         Random r = new Random(); // just create one and keep it around
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
         int N = randomWithRange(5, 20);
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < N; i++)
+        {
             sb.append(alphabet.charAt(r.nextInt(alphabet.length())));
         }
         int space = randomWithRange(5, N); // İsime space eklenecek !
@@ -46,12 +48,14 @@ public class Main {
     }
 
 
-    public static int randomWithRange(int min, int max) {
+    public static int randomWithRange(int min, int max)
+    {
         int range = (max - min) + 1;
         return (int) (Math.random() * range) + min;
     }
 
-    public static void readFromFile() {
+    public static void readFromFile()
+    {
 
         // The name of the file to open.
         String file = "Users.txt";
@@ -61,7 +65,8 @@ public class Main {
         // This will reference one line at a time
         String line = null;
 
-        try {
+        try
+        {
             // FileReader reads text files in the default encoding.
             FileReader fileRead =
                     new FileReader(file);
@@ -70,7 +75,8 @@ public class Main {
             BufferedReader bufferedReader =
                     new BufferedReader(fileRead);
 
-            while ((line = bufferedReader.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null)
+            {
 
                 String[] parts = line.split(";");
                 String stdNo = parts[0];
@@ -84,11 +90,15 @@ public class Main {
             System.out.print(hashDivision(Std_No));
             // Always close files.
             bufferedReader.close();
-        } catch (FileNotFoundException ex) {
+        }
+        catch (FileNotFoundException ex)
+        {
             System.out.println(
                     "Unable to open file '" +
                             file + "'");
-        } catch (IOException ex) {
+        }
+        catch (IOException ex)
+        {
             System.out.println(
                     "Error reading file '"
                             + file + "'");
@@ -101,16 +111,17 @@ public class Main {
     {
         int[] foo = new int[20];
         int i;
-        for (i = 0; i < No.size(); i++) {
+        for (i = 0; i < No.size(); i++)
+        {
             foo[i] = Integer.parseInt((String) No.get(i));
 
         }
         int[] modfoo = new int[20];
-       for(i=0;i<20;i++)
-       {
-           modfoo[foo[i]%10]=Integer.parseInt((String)No.get(i));
+        for (i = 0; i < 20; i++)
+        {
+            modfoo[foo[i] % 10] = Integer.parseInt((String) No.get(i));
 
-       }
+        }
 
 
         return modfoo[1];
@@ -123,13 +134,15 @@ public class Main {
         int[] powmid = new int[20];
         int pow = 0;
         int i = 0;
-        for (i = 0; i < No.size(); i++) {
+        for (i = 0; i < No.size(); i++)
+        {
             powmid[i] = Integer.parseInt((String) No.get(i));
 
         }
         int firstIn = 0;
         pow = powmid[0] * powmid[0];
-        while (pow > 0) {
+        while (pow > 0)
+        {
             pow = pow / 10;
             firstIn++;
         }
@@ -137,11 +150,13 @@ public class Main {
         int middle = ((firstIn + 1) / 2) - 1;
         int[] powNum = new int[50];
         int a = 1;
-        for (i = 1; i < firstIn; i++) {
+        for (i = 1; i < firstIn; i++)
+        {
             a = a * 10;
         }
         int temp = 0;
-        for (i = 0; i < firstIn; i++) {
+        for (i = 0; i < firstIn; i++)
+        {
             temp = pow / a;
             powNum[i] = temp;
             pow = pow % a;
@@ -162,7 +177,8 @@ public class Main {
         int[] folding = new int[20];
         int[] modFolding = new int[20];
         int i = 0;
-        for (i = 0; i < No.size(); i++) {
+        for (i = 0; i < No.size(); i++)
+        {
             folding[i] = Integer.parseInt((String) No.get(i));
 
         }
@@ -179,7 +195,8 @@ public class Main {
     }
 
 
-    public static void createHashTable() {
+    public static void createHashTable()
+    {
         // Create a hash map
         Hashtable balance = new Hashtable();
         Enumeration names;
@@ -194,7 +211,8 @@ public class Main {
 
         // Show all balances in hash table.
         names = balance.keys();
-        while (names.hasMoreElements()) {
+        while (names.hasMoreElements())
+        {
             str = (String) names.nextElement();
             System.out.println(str + ": " +
                     balance.get(str));
@@ -203,8 +221,7 @@ public class Main {
         // Deposit 1,000 into Zara's account
         bal = ((Double) balance.get("Zara")).doubleValue();
         balance.put("Zara", new Double(bal + 1000));
-        System.out.println("Zara's new balance: " +
-                balance.get("Zara"));
+        System.out.println("Zara's new balance: " + balance.get("Zara"));
     }
 }
 
