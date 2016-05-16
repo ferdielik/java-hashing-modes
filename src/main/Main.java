@@ -8,8 +8,8 @@ public class Main
     public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException
     {
 
-        createRandomText(20);
-        readFromFile();
+        createRandomText(500);
+        //readFromFile();
         // createHashTable(); //Taslak Hash Table
 
     }
@@ -20,7 +20,7 @@ public class Main
 
         for (int i = 0; i < size; i++)
         {
-            writer.println(generateRandomID() + ";" + generateRandomName());
+            writer.println(generateRandomID() + ";" + generateRandomName() +  ";" + generateRandomName());
 
         }
         writer.close();
@@ -36,7 +36,7 @@ public class Main
         Random r = new Random(); // just create one and keep it around
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-        int N = randomWithRange(5, 20);
+        int N = randomWithRange(1, 10);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++)
         {
