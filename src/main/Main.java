@@ -14,12 +14,10 @@ public class Main
     public static void main(String[] args)
     {
         new Main();
-
     }
 
     public Main()
     {
-
         System.out.println(hashRoot(123499999));
         createRandomTextDataBase(500);
 
@@ -111,7 +109,7 @@ public class Main
 
     }
 
-    public Long generateRandomID()
+    public Integer generateRandomID()
     {
         return randomWithRange(100000000, 999999999);
     }
@@ -121,22 +119,23 @@ public class Main
         Random r = new Random(); // just create one and keep it around
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-        Long N = randomWithRange(1, 10);
+        Integer N = randomWithRange(1, 10);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++)
         {
             sb.append(alphabet.charAt(r.nextInt(alphabet.length())));
         }
-        Long space = randomWithRange(5, N); // İsime space eklenecek !
+        Integer space = randomWithRange(5, N); // İsime space eklenecek !
         String randomName = sb.toString();
         return randomName;
     }
 
 
-    public Long randomWithRange(int min, int max)
+    public Integer randomWithRange(int min, int max)
     {
         int range = (max - min) + 1;
-        return Long.valueOf(String.valueOf((Math.random() * range) + min));
+
+        return Integer.valueOf(String.valueOf((Math.random() * range) + min));
     }
 
     public void readFromFile()

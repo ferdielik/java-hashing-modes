@@ -2,7 +2,7 @@ package main;
 
 public class Student
 {
-    private Long id;
+    private Integer id;
     private String name;
     private String surname;
 
@@ -15,17 +15,17 @@ public class Student
     {
         String[] parts = text.split(";");
 
-        this.id = Long.valueOf(parts[0]);
+        this.id = Integer.valueOf(parts[0]);
         this.name = parts[1];
         this.surname = parts[2];
     }
 
-    public Long getId()
+    public Integer getId()
     {
         return id;
     }
 
-    public void setId(Long id)
+    public void setId(Integer id)
     {
         this.id = id;
     }
