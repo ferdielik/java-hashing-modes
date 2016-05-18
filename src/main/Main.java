@@ -4,9 +4,6 @@ import java.io.*;
 import java.util.*;
 
 /*
-    ***hashRoot da bi problem var !!! tam bitmedi
-
-
       hash dosyalarının total boyutu 1217 olsun , asal sayı kullanılması daha iyi.
      (tüm fonksiyonlar 1217 ye göre dizayn))
  */
@@ -22,7 +19,9 @@ public class Main
 
     public Main()
     {
-        createRandomTextDataBase(500);
+
+        System.out.println(hashRoot(123499999));
+        //        createRandomTextDataBase(500);
 
         //readFromFile();
         // createHashTable(); //Taslak Hash Table
@@ -66,18 +65,19 @@ public class Main
         return result;
     }
 
-    public int hashRoot(int code)
+    public Long hashRoot(int code)
     {
         /*
         son 5 hanesinin karesinin orta 3 hanesi
          */
-        int lastFive = code % 100000;
-        int root = lastFive * lastFive;
-        int result = root % ((int) Math.pow(10, sizeOfNumber(root) / 2 + 2));
-        result = (result - (result % (int) Math.pow(10, sizeOfNumber(root) / 2 - 1))) / (int) Math.pow(10,
-                sizeOfNumber(root) / 2 - 1);
-        System.out.println(result);
-        return result;
+        Long lastFive = code % 100000L;
+        Long root = lastFive * lastFive;
+
+        String rootText = String.valueOf(root);
+        System.out.println(rootText);
+        int a = (rootText.length() / 2) - 2;
+        String ortasi = rootText.substring(a, a + 3);
+        return Long.valueOf(ortasi);
     }
 
     public int convertNumberToOpposite(int number)
