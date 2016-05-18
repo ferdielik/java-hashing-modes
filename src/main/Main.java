@@ -21,7 +21,7 @@ public class Main
     {
 
         System.out.println(hashRoot(123499999));
-        //        createRandomTextDataBase(500);
+        createRandomTextDataBase(500);
 
         //readFromFile();
         // createHashTable(); //Taslak Hash Table
@@ -36,7 +36,12 @@ public class Main
 
             for (int i = 0; i < size; i++)
             {
-                writer.println(generateRandomID() + ";" + generateRandomName() + ";" + generateRandomName());
+                Student student = new Student();
+                student.setId(generateRandomID());
+                student.setName(generateRandomName());
+                student.setSurname(generateRandomName());
+
+                writer.println(student.toString());
 
             }
             writer.close();
@@ -86,8 +91,7 @@ public class Main
         int j = 10;
         for (int i = 0; i < sizeOfNumber(number); i++)
         {
-            result += ((number % j - number % (j / 10)) / (int) Math.pow(10, i)) * (int) Math.pow(10, sizeOfNumber
-                    (number) - i - 1);
+            result += ((number % j - number % (j / 10)) / (int) Math.pow(10, i)) * (int) Math.pow(10, sizeOfNumber(number) - i - 1);
             j *= 10;
         }
         return result;
@@ -107,7 +111,7 @@ public class Main
 
     }
 
-    public int generateRandomID()
+    public Long generateRandomID()
     {
         return randomWithRange(100000000, 999999999);
     }
@@ -117,22 +121,22 @@ public class Main
         Random r = new Random(); // just create one and keep it around
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-        int N = randomWithRange(1, 10);
+        Long N = randomWithRange(1, 10);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++)
         {
             sb.append(alphabet.charAt(r.nextInt(alphabet.length())));
         }
-        int space = randomWithRange(5, N); // İsime space eklenecek !
+        Long space = randomWithRange(5, N); // İsime space eklenecek !
         String randomName = sb.toString();
         return randomName;
     }
 
 
-    public int randomWithRange(int min, int max)
+    public Long randomWithRange(int min, int max)
     {
         int range = (max - min) + 1;
-        return (int) (Math.random() * range) + min;
+        return Long.valueOf(String.valueOf((Math.random() * range) + min));
     }
 
     public void readFromFile()
@@ -140,8 +144,7 @@ public class Main
 
         // The name of the file to open.
         String file = "Users.txt";
-        List<String> Std_No = new ArrayList();
-        List<String> Std_Name = new ArrayList();
+        List<Student> students = new ArrayList<>();
 
         // This will reference one line at a time
         String line = null;
@@ -149,24 +152,14 @@ public class Main
         try
         {
             // FileReader reads text files in the default encoding.
-            FileReader fileRead =
-                    new FileReader(file);
+            FileReader fileRead = new FileReader(file);
 
             // Always wrap FileReader in BufferedReader.
-            BufferedReader bufferedReader =
-                    new BufferedReader(fileRead);
+            BufferedReader bufferedReader = new BufferedReader(fileRead);
 
             while ((line = bufferedReader.readLine()) != null)
             {
-
-                String[] parts = line.split(";");
-                String stdNo = parts[0];
-                String name = parts[1];
-                // System.out.println(stdNo);
-                Std_No.add(stdNo);
-                Std_Name.add(name);
-
-                //  System.out.println(name);
+                students.add(new Student(line));
             }
             //System.out.print(hashDivision(Std_No));
             // Always close files.
@@ -174,15 +167,11 @@ public class Main
         }
         catch (FileNotFoundException ex)
         {
-            System.out.println(
-                    "Unable to open file '" +
-                            file + "'");
+            System.out.println( "Unable to open file '" + file + "'");
         }
         catch (IOException ex)
         {
-            System.out.println(
-                    "Error reading file '"
-                            + file + "'");
+            System.out.println("Error reading file '" + file + "'");
             // Or we could just do this:
             // ex.printStackTrace();
         }
