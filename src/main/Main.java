@@ -10,34 +10,51 @@ import java.util.*;
       hash dosyalarının total boyutu 1217 olsun , asal sayı kullanılması daha iyi.
      (tüm fonksiyonlar 1217 ye göre dizayn))
  */
-public class Main {
+public class Main
+{
     public static int dataLength = 1217;
 
-    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
+    public static void main(String[] args)
+    {
+        new Main();
 
+    }
+
+    public Main()
+    {
         createRandomTextDataBase(500);
 
         //readFromFile();
         // createHashTable(); //Taslak Hash Table
-
     }
 
 
-    public static void createRandomTextDataBase(int size) throws FileNotFoundException, UnsupportedEncodingException {
-        PrintWriter writer = new PrintWriter("Users.txt", "UTF-8");
+    public void createRandomTextDataBase(int size)
+    {
+        try
+        {
+            PrintWriter writer = new PrintWriter("Users.txt", "UTF-8");
 
-        for (int i = 0; i < size; i++) {
-            writer.println(generateRandomID() + ";" + generateRandomName() + ";" + generateRandomName());
+            for (int i = 0; i < size; i++)
+            {
+                writer.println(generateRandomID() + ";" + generateRandomName() + ";" + generateRandomName());
 
+            }
+            writer.close();
         }
-        writer.close();
+        catch (Exception e)
+        {
+            System.out.println(e.toString());
+        }
     }
 
-    public static int hashDivision(int code) {
+    public int hashDivision(int code)
+    {
         return code % dataLength;
     }
 
-    public static int hashKatlama(int code) {
+    public int hashKatlama(int code)
+    {
         int num1, num2, num3;
         int result = 0;
         num1 = code % 1000;
@@ -49,33 +66,40 @@ public class Main {
         return result;
     }
 
-    public static int hashRoot(int code) {
+    public int hashRoot(int code)
+    {
         /*
         son 5 hanesinin karesinin orta 3 hanesi
          */
         int lastFive = code % 100000;
         int root = lastFive * lastFive;
         int result = root % ((int) Math.pow(10, sizeOfNumber(root) / 2 + 2));
-        result = (result - (result % (int) Math.pow(10, sizeOfNumber(root) / 2 - 1))) / (int) Math.pow(10, sizeOfNumber(root) / 2 - 1);
+        result = (result - (result % (int) Math.pow(10, sizeOfNumber(root) / 2 - 1))) / (int) Math.pow(10,
+                sizeOfNumber(root) / 2 - 1);
         System.out.println(result);
         return result;
     }
 
-    public static int convertNumberToOpposite(int number) {
+    public int convertNumberToOpposite(int number)
+    {
         int result = 0;
         int j = 10;
-        for (int i = 0; i < sizeOfNumber(number); i++) {
-            result += ((number % j - number % (j / 10)) / (int) Math.pow(10, i)) * (int) Math.pow(10, sizeOfNumber(number) - i - 1);
+        for (int i = 0; i < sizeOfNumber(number); i++)
+        {
+            result += ((number % j - number % (j / 10)) / (int) Math.pow(10, i)) * (int) Math.pow(10, sizeOfNumber
+                    (number) - i - 1);
             j *= 10;
         }
         return result;
 
     }
 
-    public static int sizeOfNumber(int number) {
+    public int sizeOfNumber(int number)
+    {
         int i = 1;
         int j = 10;
-        while (number % j != number) {
+        while (number % j != number)
+        {
             i++;
             j *= 10;
         }
@@ -83,17 +107,20 @@ public class Main {
 
     }
 
-    public static int generateRandomID() {
+    public int generateRandomID()
+    {
         return randomWithRange(100000000, 999999999);
     }
 
-    public static String generateRandomName() {
+    public String generateRandomName()
+    {
         Random r = new Random(); // just create one and keep it around
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
         int N = randomWithRange(1, 10);
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < N; i++)
+        {
             sb.append(alphabet.charAt(r.nextInt(alphabet.length())));
         }
         int space = randomWithRange(5, N); // İsime space eklenecek !
@@ -102,12 +129,14 @@ public class Main {
     }
 
 
-    public static int randomWithRange(int min, int max) {
+    public int randomWithRange(int min, int max)
+    {
         int range = (max - min) + 1;
         return (int) (Math.random() * range) + min;
     }
 
-    public static void readFromFile() {
+    public void readFromFile()
+    {
 
         // The name of the file to open.
         String file = "Users.txt";
@@ -117,7 +146,8 @@ public class Main {
         // This will reference one line at a time
         String line = null;
 
-        try {
+        try
+        {
             // FileReader reads text files in the default encoding.
             FileReader fileRead =
                     new FileReader(file);
@@ -126,7 +156,8 @@ public class Main {
             BufferedReader bufferedReader =
                     new BufferedReader(fileRead);
 
-            while ((line = bufferedReader.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null)
+            {
 
                 String[] parts = line.split(";");
                 String stdNo = parts[0];
@@ -140,11 +171,15 @@ public class Main {
             //System.out.print(hashDivision(Std_No));
             // Always close files.
             bufferedReader.close();
-        } catch (FileNotFoundException ex) {
+        }
+        catch (FileNotFoundException ex)
+        {
             System.out.println(
                     "Unable to open file '" +
                             file + "'");
-        } catch (IOException ex) {
+        }
+        catch (IOException ex)
+        {
             System.out.println(
                     "Error reading file '"
                             + file + "'");
