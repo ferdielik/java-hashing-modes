@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.*;
 
 /*
+    ***hashRoot da bi problem var !!! tam bitmedi
+
+
       hash dosyalarının total boyutu 1217 olsun , asal sayı kullanılması daha iyi.
      (tüm fonksiyonlar 1217 ye göre dizayn))
  */
@@ -13,6 +16,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 
         createRandomTextDataBase(500);
+
         //readFromFile();
         // createHashTable(); //Taslak Hash Table
 
@@ -29,36 +33,46 @@ public class Main {
         writer.close();
     }
 
-    public static int bolenKalan(int number) {
-        return number % dataLength;
+    public static int hashDivision(int code) {
+        return code % dataLength;
     }
 
-    public static int katlama(int number) {
+    public static int hashKatlama(int code) {
         int num1, num2, num3;
         int result = 0;
-        num1 = number % 1000;
-
+        num1 = code % 1000;
         result += convertNumberToOpposite(num1);
-        num2 = (number % 1000000 - num1) / 1000;
+        num2 = (code % 1000000 - num1) / 1000;
         result += num2;
-        num3 = (number - number % 1000000) / 1000000;
-
+        num3 = (code - code % 1000000) / 1000000;
         result += convertNumberToOpposite(num3);
+        return result;
+    }
+
+    public static int hashRoot(int code) {
+        /*
+        son 5 hanesinin karesinin orta 3 hanesi
+         */
+        int lastFive = code % 100000;
+        int root = lastFive * lastFive;
+        int result = root % ((int) Math.pow(10, sizeOfNumber(root) / 2 + 2));
+        result = (result - (result % (int) Math.pow(10, sizeOfNumber(root) / 2 - 1))) / (int) Math.pow(10, sizeOfNumber(root) / 2 - 1);
+        System.out.println(result);
         return result;
     }
 
     public static int convertNumberToOpposite(int number) {
         int result = 0;
         int j = 10;
-        for (int i = 0; i < numberOfLength(number); i++) {
-            result += ((number % j - number % (j / 10)) / (int) Math.pow(10, i)) * (int) Math.pow(10, numberOfLength(number) - i - 1);
+        for (int i = 0; i < sizeOfNumber(number); i++) {
+            result += ((number % j - number % (j / 10)) / (int) Math.pow(10, i)) * (int) Math.pow(10, sizeOfNumber(number) - i - 1);
             j *= 10;
         }
         return result;
 
     }
 
-    public static int numberOfLength(int number) {
+    public static int sizeOfNumber(int number) {
         int i = 1;
         int j = 10;
         while (number % j != number) {
