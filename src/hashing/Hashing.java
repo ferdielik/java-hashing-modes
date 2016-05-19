@@ -31,6 +31,7 @@ public class Hashing
 
     public Student get(HashMode hashMode, ConflictMode conflictMode, Integer studentNumber, Boolean hashEnable)
     {
+//        System.out.println("found index  " + studentNumber);
         Integer index = studentNumber;
         if(hashEnable)
         {
@@ -38,16 +39,23 @@ public class Hashing
         }
 
         String fileName = getFileName(hashMode, conflictMode);
+        if(hashFileController.getStudent(fileName,index) == null)
+        {
+            return new Student();
+        }
         if(studentNumber.equals(hashFileController.getStudent(fileName,index).getId()))
         {
-            System.out.println(getFileName(hashMode, conflictMode) + "  " + index);
+//            System.out.println("          path : " + getFileName(hashMode, conflictMode) + "  " + index);
             return hashFileController.getStudent(fileName, index);
         }
-
-        return get(hashMode, conflictMode, index + 1, false) ;
-
+        Integer newIndex = index + 1;
+        if(ConflictMode.DISCRETE_OVERFLOW.equals(conflictMode) && index < 1000)
+        {
+            newIndex = 1000;
+        }
+//        System.out.println("new index  " + newIndex);
+        return get(hashMode, conflictMode, newIndex, false);
     }
-
 
     public Integer findIndex(HashMode hashMode, Integer number)
     {
@@ -148,12 +156,11 @@ public class Hashing
          */
 
         StringBuffer numberText = new StringBuffer(String.valueOf(number));
-        StringBuffer result = new StringBuffer();
         Integer num1 = reverse(numberText.substring(0,3));
         Integer num2 = Integer.valueOf(numberText.substring(3,6));
         Integer num3 = reverse(numberText.substring(6,9));
 
-        System.out.println(num1 + "  " + num2 + "  " + num3);
+//        System.out.println(num1 + "  " + num2 + "  " + num3);
         return (num1 + num2 + num3) % DATA_LENGTH;
     }
 

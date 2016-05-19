@@ -13,6 +13,7 @@ public class Main
 {
     //controllers
     DatabaseController databaseController = new DatabaseController();
+    HashFileController hashFileController= new HashFileController();
     Hashing hashing = new Hashing();
     // hashings
 
@@ -29,7 +30,7 @@ public class Main
 
         // 587363477;fdswvbcnnz;jwjveykcfa
 
-        Integer studentNumber = 587363477;
+        Integer studentNumber = 399630850;
 //
         System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW, studentNumber, true).toString());
         System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE, studentNumber, true).toString());
