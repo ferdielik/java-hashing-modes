@@ -15,6 +15,9 @@ public class Main
     DatabaseController databaseController = new DatabaseController();
     HashFileController hashFileController = new HashFileController();
     Hashing hashing = new Hashing();
+
+    Integer minSpeed = Integer.MAX_VALUE;
+    String minSpeedName = "";
     // hashings
 
     public static void main(String[] args)
@@ -22,7 +25,7 @@ public class Main
         new Main();
     }
 
-    private Long test(HashMode hashMode, ConflictMode conflictMode)
+    private void test(HashMode hashMode, ConflictMode conflictMode)
     {
         long startTime = System.currentTimeMillis();
         List<Student> studentList = databaseController.readFromFile();
@@ -35,11 +38,17 @@ public class Main
         for (Student student : studentList)
         {
             Integer studentNumber = student.getId();
-            System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW, studentNumber).toString());
+            System.out.println(hashing.get(hashMode, conflictMode, studentNumber).toString());
         }
         long estimatedTime = System.currentTimeMillis() - startTime;
+        Integer speed = Integer.valueOf(String.valueOf(estimatedTime));
+        if( speed < minSpeed)
+        {
+            minSpeed = speed;
+            minSpeedName =  hashMode.name() + " " + conflictMode.name();
+        }
         System.out.println("--------------------------"+hashMode.name()+ "------------" + conflictMode.name() + estimatedTime+"ms");
-        return estimatedTime;
+
     }
 
     public Main()
@@ -47,16 +56,15 @@ public class Main
         hashFileController.createWorkBook();
         databaseController.createRandomTextDataBase(500);
 
+        test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW);
+        test(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW);
+        test(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE);
+        test(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW);
+        test(HashMode.FOLDING, ConflictMode.LINEAR_PROBE);
+        test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE);
 
-        Float[] d = new Float[8];
 
-        d[0] = Float.valueOf(test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW));
-        d[1] = Float.valueOf(test(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW));
-        d[2] = Float.valueOf(test(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE));
-        d[3] = Float.valueOf(test(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW));
-        d[4] = Float.valueOf(test(HashMode.FOLDING, ConflictMode.LINEAR_PROBE));
-        d[5] = Float.valueOf(test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE));
-        System.out.println("en hızlı:"+Math.min(d[0], Math.min(d[1], Math.min(d[2], Math.min(d[3], Math.min(d[4], d[5]))))));
+        System.out.println("Fast method : " + minSpeedName + "   speed : " + minSpeed);
 
     }
 }
