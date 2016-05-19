@@ -40,6 +40,7 @@ public class Hashing
         String fileName = getFileName(hashMode, conflictMode);
         if(studentNumber.equals(hashFileController.getStudent(fileName,index).getId()))
         {
+            System.out.println(getFileName(hashMode, conflictMode) + "  " + index);
             return hashFileController.getStudent(fileName, index);
         }
 
@@ -48,7 +49,7 @@ public class Hashing
     }
 
 
-    private Integer findIndex(HashMode hashMode, Integer number)
+    public Integer findIndex(HashMode hashMode, Integer number)
     {
         if (HashMode.DIVIDING_THE_REMAINING.equals(hashMode))
         {
@@ -87,7 +88,7 @@ public class Hashing
     }
 
 
-    private Integer findIndexForSave(HashMode hashMode, ConflictMode conflictMode, Integer number)
+    public Integer findIndexForSave(HashMode hashMode, ConflictMode conflictMode, Integer number)
     {
         if (ConflictMode.DISCRETE_OVERFLOW.equals(conflictMode))
         {
@@ -132,18 +133,28 @@ public class Hashing
 
     private Integer foldingFindIndex(Integer number)
     {
-        int num1, num2, num3;
-        int result = 0;
+        /**
+         *
+         * 492715066
+         * num1 = 066
+         * result = 660
+         *
+         * num2 715
+         * result = 715 + 660
+         *
+         * num3 492
+         * result = 294 + 715 + 660
+         *
+         */
 
-        num1 = number % 1000;
+        StringBuffer numberText = new StringBuffer(String.valueOf(number));
+        StringBuffer result = new StringBuffer();
+        Integer num1 = reverse(numberText.substring(0,3));
+        Integer num2 = Integer.valueOf(numberText.substring(3,6));
+        Integer num3 = reverse(numberText.substring(6,9));
 
-        result += reverseNumber(num1);
-        num2 = (number % 1000000 - num1) / 1000;
-        result += num2;
-        num3 = (number - number % 1000000) / 1000000;
-        result += reverseNumber(num3);
-
-        return result % DATA_LENGTH;
+        System.out.println(num1 + "  " + num2 + "  " + num3);
+        return (num1 + num2 + num3) % DATA_LENGTH;
     }
 
     private Integer dividingTheRemainingFindIndex(Integer number)
@@ -151,12 +162,10 @@ public class Hashing
         return number % DATA_LENGTH;
     }
 
-
-    private Integer reverseNumber(int number)
+    private Integer reverse(String number)
     {
-        StringBuffer numberText = new StringBuffer(String.valueOf(number));
-        String reversedNumber = numberText.reverse().toString();
-        return Integer.valueOf(reversedNumber);
+        StringBuffer numberText = new StringBuffer(number);
+        return Integer.valueOf(numberText.reverse().toString());
     }
 
     private boolean existStudents(HashMode hashMode, ConflictMode conflictMode, Integer index)

@@ -13,7 +13,6 @@ public class Main
 {
     //controllers
     DatabaseController databaseController = new DatabaseController();
-    HashFileController hashFileController = new HashFileController();
     Hashing hashing = new Hashing();
     // hashings
 
