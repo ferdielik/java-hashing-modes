@@ -1,6 +1,7 @@
 package hashing;
 
 import controller.HashFileController;
+import controller.HashFileController.Sheets;
 import main.Student;
 
 /**
@@ -15,13 +16,14 @@ public class MidSquareHashing implements Hashing
     public void addWithLinearProbe(Student student)
     {
         Long index = findIndex(student.getId());
-        hashFileController.addCell(index, student);
+        hashFileController.addCell(Sheets.midSquareLinear, index, student);
     }
 
     @Override
     public void addWithDiscreteLeash(Student student)
     {
-
+        Long index = findIndex(student.getId());
+        hashFileController.addCell(Sheets.midSquare, index, student);
     }
 
     @Override

@@ -15,9 +15,9 @@ public class Student
     {
         String[] parts = text.split(";");
 
-        this.id = Integer.valueOf(parts[0]);
-        this.name = parts[1];
-        this.surname = parts[2];
+        this.id = Integer.valueOf(parts[2]);
+        this.name = parts[0];
+        this.surname = parts[1];
     }
 
     public Integer getId()

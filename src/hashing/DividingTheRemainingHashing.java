@@ -1,5 +1,7 @@
 package hashing;
 
+import controller.HashFileController;
+import controller.HashFileController.Sheets;
 import main.Student;
 
 /**
@@ -10,17 +12,20 @@ import main.Student;
 public class DividingTheRemainingHashing implements Hashing
 {
     private static int DATA_LENGTH = 1217;
+    private HashFileController hashFileController = new HashFileController();
 
     @Override
     public void addWithLinearProbe(Student student)
     {
-
+        Long index = findIndex(student.getId());
+        hashFileController.addCell(Sheets.dividingTheRemainingLinear, index, student);
     }
 
     @Override
     public void addWithDiscreteLeash(Student student)
     {
-
+        Long index = findIndex(student.getId());
+        hashFileController.addCell(Sheets.dividingTheRemaining, index, student);
     }
 
     @Override
@@ -29,8 +34,8 @@ public class DividingTheRemainingHashing implements Hashing
 
     }
 
-    private int hashDivision(int code)
+    private Long findIndex(int code)
     {
-        return code % DATA_LENGTH;
+        return Long.valueOf(code % DATA_LENGTH);
     }
 }

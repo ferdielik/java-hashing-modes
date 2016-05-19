@@ -1,6 +1,7 @@
 package hashing;
 
 import controller.HashFileController;
+import controller.HashFileController.Sheets;
 import main.Student;
 
 /**
@@ -15,13 +16,15 @@ public class FoldingHashing implements Hashing
     {
         Long index = findIndex(student.getId());
         // cakisma kontrolleri eklenmeli
-        hashFileController.addCell(index, student);
+        hashFileController.addCell(Sheets.foldingLinear, index, student);
     }
 
     @Override
     public void addWithDiscreteLeash(Student student)
     {
-
+        Long index = findIndex(student.getId());
+        // cakisma kontrolleri eklenmeli
+        hashFileController.addCell(Sheets.folding, index, student);
     }
 
     @Override
