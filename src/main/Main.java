@@ -47,19 +47,16 @@ public class Main
         hashFileController.createWorkBook();
         databaseController.createRandomTextDataBase(500);
 
-        float min = Float.MAX_VALUE;
 
-        if(  test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW)  < min)
-        {
-            min = test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW);
-        }
+        Float[] d = new Float[8];
 
-        test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW);
-        test(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW);
-        test(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE);
-        test(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW);
-        test(HashMode.FOLDING, ConflictMode.LINEAR_PROBE);
-        test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE);
+        d[0] = Float.valueOf(test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW));
+        d[1] = Float.valueOf(test(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW));
+        d[2] = Float.valueOf(test(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE));
+        d[3] = Float.valueOf(test(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW));
+        d[4] = Float.valueOf(test(HashMode.FOLDING, ConflictMode.LINEAR_PROBE));
+        d[5] = Float.valueOf(test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE));
+        System.out.println("en hızlı:"+Math.min(d[0], Math.min(d[1], Math.min(d[2], Math.min(d[3], Math.min(d[4], d[5]))))));
 
     }
 }
