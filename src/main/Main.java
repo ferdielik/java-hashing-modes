@@ -54,6 +54,7 @@ public class Main
         d[3] = Float.valueOf(test(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW));
         d[4] = Float.valueOf(test(HashMode.FOLDING, ConflictMode.LINEAR_PROBE));
         d[5] = Float.valueOf(test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE));
+     System.out.println("en hızlı:"+Math.min(d[0], Math.min(d[1], Math.min(d[2], Math.min(d[3], Math.min(d[4], d[5]))))));
     }
 }
 
