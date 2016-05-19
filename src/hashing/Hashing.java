@@ -52,18 +52,23 @@ public class Hashing
         }
     }
 
-    private Integer findIndexForOverflow(HashMode hashMode, Integer number)
+    private Integer findIndexForOverflow(HashMode hashMode, Integer number, Boolean hashEnable)
     {
-        Integer index = findIndex(hashMode, number);
+        Integer index = number;
+        if (hashEnable)
+        {
+            index = findIndex(hashMode, number);
+        }
+
         if (existStudents(hashMode, ConflictMode.DISCRETE_OVERFLOW, index))
         {
             if (index < 1000)
             {
-                findIndexForOverflow(hashMode, 1000);
+                findIndexForOverflow(hashMode, 1000, false);
             }
             else
             {
-                findIndexForOverflow(hashMode, index + 1);
+                findIndexForOverflow(hashMode, index + 1, false);
             }
         }
         return index;
@@ -73,21 +78,27 @@ public class Hashing
     {
         if (ConflictMode.DISCRETE_OVERFLOW.equals(conflictMode))
         {
-            return findIndexForOverflow(hashMode, number);
+            return findIndexForOverflow(hashMode, number, true);
         }
         else
         {
-            return findIndexForLinear(hashMode, number);
+            return findIndexForLinear(hashMode, number, true);
         }
 
     }
 
-    private Integer findIndexForLinear(HashMode hashMode, Integer number)
+    private Integer findIndexForLinear(HashMode hashMode, Integer number, Boolean hashEnable)
     {
-        Integer index = findIndex(hashMode, number);
+        Integer index = number;
+        if (hashEnable)
+        {
+            index = findIndex(hashMode, number);
+        }
+
         if (existStudents(hashMode, ConflictMode.LINEAR_PROBE, index))
         {
-            return findIndexForLinear(hashMode, number + 1);
+            System.out.println("cakisti");
+            return findIndexForLinear(hashMode, index + 1, false);
         }
         return index;
     }
