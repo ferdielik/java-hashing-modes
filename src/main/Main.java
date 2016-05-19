@@ -2,6 +2,7 @@ package main;
 
 
 import java.util.List;
+import java.util.Locale;
 
 import controller.DatabaseController;
 import controller.HashFileController;
@@ -42,12 +43,12 @@ public class Main
         }
         long estimatedTime = System.currentTimeMillis() - startTime;
         Integer speed = Integer.valueOf(String.valueOf(estimatedTime));
-        if( speed < minSpeed)
+        if (speed < minSpeed)
         {
             minSpeed = speed;
-            minSpeedName =  hashMode.name() + " " + conflictMode.name();
+            minSpeedName = hashMode.name() + " " + conflictMode.name();
         }
-        System.out.println("--------------------------"+hashMode.name()+ "------------" + conflictMode.name() + estimatedTime+"ms");
+        System.out.println("--------------------------" + hashMode.name() + "------------" + conflictMode.name() + estimatedTime + "ms");
 
     }
 
@@ -64,8 +65,13 @@ public class Main
         test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE);
 
 
-        System.out.println("Fast method : " + minSpeedName + "   speed : " + minSpeed);
+        System.out.println("Fast method : " + getPrettyName(minSpeedName) + "   speed : " + minSpeed + " ms");
 
+    }
+
+    private String getPrettyName(String minSpeedName)
+    {
+        return minSpeedName.toString().toLowerCase(new Locale("en-US")).toString().replace("_", " ");
     }
 }
 
