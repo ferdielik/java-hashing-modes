@@ -46,14 +46,19 @@ public class Main
     {
         hashFileController.createWorkBook();
         databaseController.createRandomTextDataBase(500);
-        Float[] d = new Float[8];
+        float min = Float.MAX_VALUE;
 
-        d[0] = Float.valueOf(test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW));
-        d[1] = Float.valueOf(test(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW));
-        d[2] = Float.valueOf(test(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE));
-        d[3] = Float.valueOf(test(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW));
-        d[4] = Float.valueOf(test(HashMode.FOLDING, ConflictMode.LINEAR_PROBE));
-        d[5] = Float.valueOf(test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE));
+        if(  test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW)  < min)
+        {
+            min = test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW);
+        }
+
+        test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW);
+        test(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW);
+        test(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE);
+        test(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW);
+        test(HashMode.FOLDING, ConflictMode.LINEAR_PROBE);
+        test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE);
     }
 }
 
