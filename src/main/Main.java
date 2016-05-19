@@ -24,7 +24,9 @@ public class Main
 
     private Integer test(HashMode hashMode, ConflictMode conflictMode)
     {
+        long startTime = System.currentTimeMillis();
         List<Student> studentList = databaseController.readFromFile();
+
         for (Student student : studentList)
         {
             hashing.save(hashMode, conflictMode, student);
@@ -35,7 +37,8 @@ public class Main
             Integer studentNumber = student.getId();
             System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW, studentNumber, true).toString());
         }
-
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        System.out.println("--------------------------"+hashMode.name()+ "------------" + conflictMode.name() + estimatedTime+"ms");
         return 0;
     }
 
