@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.geom.Point2D.Double;
 import java.io.*;
 import java.util.*;
 
@@ -121,8 +122,7 @@ public class Main
     public Integer randomWithRange(int min, int max)
     {
         int range = (max - min) + 1;
-
-        return Integer.valueOf(String.valueOf((Math.random() * range) + min));
+        return (int)(Math.random() * range) + min;
     }
 
     public List<Student> readFromFile()
