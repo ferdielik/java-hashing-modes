@@ -22,7 +22,7 @@ public class Main
         new Main();
     }
 
-    private Integer test(HashMode hashMode, ConflictMode conflictMode)
+    private Long test(HashMode hashMode, ConflictMode conflictMode)
     {
         long startTime = System.currentTimeMillis();
         List<Student> studentList = databaseController.readFromFile();
@@ -39,19 +39,21 @@ public class Main
         }
         long estimatedTime = System.currentTimeMillis() - startTime;
         System.out.println("--------------------------"+hashMode.name()+ "------------" + conflictMode.name() + estimatedTime+"ms");
-        return 0;
+        return estimatedTime;
     }
 
     public Main()
     {
         hashFileController.createWorkBook();
         databaseController.createRandomTextDataBase(500);
-        test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW);
-        test(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW);
-        test(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE);
-        test(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW);
-        test(HashMode.FOLDING, ConflictMode.LINEAR_PROBE);
-        test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE);
+        Float[] d = new Float[8];
+
+        d[0] = Float.valueOf(test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW));
+        d[1] = Float.valueOf(test(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW));
+        d[2] = Float.valueOf(test(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE));
+        d[3] = Float.valueOf(test(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW));
+        d[4] = Float.valueOf(test(HashMode.FOLDING, ConflictMode.LINEAR_PROBE));
+        d[5] = Float.valueOf(test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE));
     }
 }
 
