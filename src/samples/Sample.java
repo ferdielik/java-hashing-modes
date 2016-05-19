@@ -116,4 +116,26 @@ public class Sample
         //return complete hash
         return sb.toString();
     }
+
+    // iki fonksiyon düzenlenecek !!!!
+
+    private static Integer checkForLinear(File abc ,int code )
+    {
+        while (true)
+        {
+            if(checkClear(code) == true)
+            {
+                return code;
+            }else
+            {
+                code = (code +1)%LINE_LENGTH;
+            }
+        }
+
+    }
+
+    private static boolean checkClear(int code) {
+
+        return false;
+    }
 }

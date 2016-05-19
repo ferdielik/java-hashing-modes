@@ -1,18 +1,15 @@
 package main;
 
-public class Student
-{
+public class Student {
     private Integer id;
     private String name;
     private String surname;
 
-    public Student()
-    {
+    public Student() {
 
     }
 
-    public Student(String text)
-    {
+    public Student(String text) {
         String[] parts = text.split(";");
 
         this.id = Integer.valueOf(parts[2]);
@@ -20,38 +17,31 @@ public class Student
         this.surname = parts[1];
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getSurname()
-    {
+    public String getSurname() {
         return surname;
     }
 
-    public void setSurname(String surname)
-    {
+    public void setSurname(String surname) {
         this.surname = surname;
     }
 
-    public String toString()
-    {
-        return name + ";" + surname + ";" + id;
+    public String toString() {
+        return id + ";" + name + ";" + surname;
     }
 }
