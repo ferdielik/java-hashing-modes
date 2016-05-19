@@ -88,15 +88,19 @@ public class HashFileController
                 String character = Character.toString((char) randomAccessFile.readByte());
                 if (character.equals("\u0000"))
                 {
+                    randomAccessFile.close();
                     return null;
                 }
                 studentText.append(character);
             }
+
             if (isNotEmpty(studentText.toString()))
             {
+                randomAccessFile.close();
                 return new Student(studentText.toString());
             }
             randomAccessFile.close();
+
         }
         catch (EOFException eofException)
         {
