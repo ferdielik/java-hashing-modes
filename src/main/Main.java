@@ -24,21 +24,50 @@ public class Main
 
     public Main()
     {
-//        hashFileController.createWorkBook();
-//        databaseController.createRandomTextDataBase(100);
-//        buildHashFiles();
+        hashFileController.createWorkBook();
+        databaseController.createRandomTextDataBase(250);
+        buildHashFiles();
 
         // 587363477;fdswvbcnnz;jwjveykcfa
 
-        Integer studentNumber = 399630850;
+        Integer studentNumber = 325612784;
 //
-        System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW, studentNumber, true).toString());
-        System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE, studentNumber, true).toString());
-        System.out.println(hashing.get(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW,studentNumber, true).toString());
-        System.out.println(hashing.get(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE,studentNumber, true).toString());
-        System.out.println(hashing.get(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW,studentNumber, true).toString());
-        System.out.println(hashing.get(HashMode.FOLDING, ConflictMode.LINEAR_PROBE,studentNumber, true).toString());
+        List<Student> students = databaseController.readFromFile();
+        for(Student student : students)
+        {
+            studentNumber = student.getId();
+            System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW, studentNumber, true).toString());
+        }
 
+        for(Student student : students)
+        {
+            studentNumber = student.getId();
+            System.out.println(hashing.get(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW,studentNumber, true).toString());
+        }
+
+        for(Student student : students)
+        {
+            studentNumber = student.getId();
+            System.out.println(hashing.get(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE,studentNumber, true).toString());
+        }
+
+        for(Student student : students)
+        {
+            studentNumber = student.getId();
+            System.out.println(hashing.get(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW,studentNumber, true).toString());
+        }
+
+        for(Student student : students)
+        {
+            studentNumber = student.getId();
+            System.out.println(hashing.get(HashMode.FOLDING, ConflictMode.LINEAR_PROBE,studentNumber, true).toString());
+        }
+
+        for(Student student : students)
+        {
+            studentNumber = student.getId();
+            System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE, studentNumber, true).toString());
+        }
 
     }
 

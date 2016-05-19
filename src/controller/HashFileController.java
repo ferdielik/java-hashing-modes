@@ -45,6 +45,7 @@ public class HashFileController
             randomAccessFile.write(student.toString().getBytes());
 
             randomAccessFile.seek(index * LINE_LENGTH);
+            randomAccessFile.close();
         }
         catch (IOException e)
         {
@@ -95,6 +96,7 @@ public class HashFileController
             {
                 return new Student(studentText.toString());
             }
+            randomAccessFile.close();
         }
         catch (EOFException eofException)
         {
