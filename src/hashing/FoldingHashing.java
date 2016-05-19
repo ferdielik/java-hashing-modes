@@ -1,7 +1,7 @@
 package hashing;
 
 import controller.HashFileController;
-import controller.HashFileController.Sheets;
+import controller.HashFileController.HashModes;
 import main.Student;
 
 /**
@@ -16,7 +16,7 @@ public class FoldingHashing implements Hashing
     {
         Long index = findIndex(student.getId());
         // cakisma kontrolleri eklenmeli
-        hashFileController.addCell(Sheets.foldingLinear, index, student);
+        hashFileController.save(HashModes.foldingLinear, index, student);
     }
 
     @Override
@@ -24,24 +24,25 @@ public class FoldingHashing implements Hashing
     {
         Long index = findIndex(student.getId());
         // cakisma kontrolleri eklenmeli
-        hashFileController.addCell(Sheets.folding, index, student);
+        hashFileController.save(HashModes.folding, index, student);
     }
 
     @Override
-    public void searchWithDividingTheRemaining()
+    public Student getStudent(Integer studentNumber)
     {
-
+        Long index = findIndex(studentNumber);
+        return hashFileController.getStudent(HashModes.folding, index);
     }
 
-    public static void main(String[] argvs)
-    {
-        new FoldingHashing();
-    }
-
-    public FoldingHashing()
-    {
-        System.out.println(findIndex(123456789));
-    }
+    //    public static void main(String[] argvs)
+    //    {
+    //        new FoldingHashing();
+    //    }
+    //
+    //    public FoldingHashing()
+    //    {
+    //        System.out.println(findIndex(123456789));
+    //    }
 
     private Long findIndex(int code)
     {

@@ -8,5 +8,5 @@ public interface Hashing
 
     public void addWithDiscreteLeash(Student student);
 
-    public void searchWithDividingTheRemaining();
+    Student getStudent(Integer studentNumber);
 }

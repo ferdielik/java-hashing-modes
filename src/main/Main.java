@@ -1,11 +1,10 @@
 package main;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import controller.DatabaseController;
 import controller.HashFileController;
-import controller.HashFileController.Sheets;
 import hashing.DividingTheRemainingHashing;
 import hashing.FoldingHashing;
 import hashing.MidSquareHashing;
@@ -29,8 +28,20 @@ public class Main
     public Main()
     {
         databaseController.createRandomTextDataBase(10);
-        hashFileController.createWorkBook("output.xls");
+        hashFileController.createWorkBook();
 
+//        buildHashFiles();
+        // rjotp;sfxqk;467188023 -- ornek ogrenci
+
+//        System.out.println(dividingTheRemainingHashing.getStudent(467188023).toString());
+        System.out.println(midSquareHashing.getStudent(467188023));
+        System.out.println(foldingHashing.getStudent(467188023));
+
+
+    }
+
+    private void buildHashFiles()
+    {
         List<Student> studentList = databaseController.readFromFile();
         for(Student student: studentList)
         {
@@ -43,12 +54,7 @@ public class Main
             foldingHashing.addWithDiscreteLeash(student);
             foldingHashing.addWithLinearProbe(student);
         }
-
-
-        //readFromFile();
-        // createHashTable(); //Taslak Hash Table
     }
-
 
     public int sizeOfNumber(Integer number)
     {

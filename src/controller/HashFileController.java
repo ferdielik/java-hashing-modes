@@ -2,17 +2,9 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
-import jxl.write.Label;
-import jxl.write.Number;
-import jxl.write.WritableCell;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import jxl.write.biff.RowsExceededException;
 import main.Student;
 
 /**
@@ -20,7 +12,9 @@ import main.Student;
  */
 public class HashFileController
 {
-    public enum Sheets
+    private static int LINE_LENGTH = 21;
+
+    public enum HashModes
     {
         midSquare,
         midSquareLinear,
@@ -30,69 +24,67 @@ public class HashFileController
         dividingTheRemainingLinear
     }
 
-    public void createWorkBook(String name)
+    public void createWorkBook()
     {
-        try
-        {
-            WritableWorkbook workbook = Workbook.createWorkbook(new File(name));
-
-            for (Sheets sheet : Sheets.values())
-            {
-                workbook.createSheet(sheet.toString(), sheet.ordinal());
-            }
-
-            workbook.write();
-            workbook.close();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+//        try
+//        {
+//            for (HashModes sheet : HashModes.values())
+//            {
+//                PrintWriter writer = new PrintWriter(sheet.name() + ".txt", "UTF-8");
+//                writer.close();
+//            }
+//
+//        }
+//        catch (IOException e)
+//        {
+//            e.printStackTrace();
+//        }
     }
 
-    public void addCell(Sheets sheet, Long index, Student student)
+    public void save(HashModes sheet, Long index, Student student)
     {
-        Workbook workbook = null;
         try
         {
-//            workbook = Workbook.getWorkbook(new File("output.xls"));
-//            Sheet sheeet = workbook.getSheet(sheet.ordinal());
-////            Label label = new  Label(0, index.intValue(), student.toString());
-//            sheet.addCell(label);
+            File f = new File(sheet.name() + ".txt");
+            RandomAccessFile randomAccessFile = new RandomAccessFile(f, "rw");
 
+            randomAccessFile.seek(index * LINE_LENGTH);
+            randomAccessFile.write(student.toString().getBytes());
 
-            Workbook existingWorkbook = Workbook.getWorkbook(new File("output.xls"));
-            WritableWorkbook workbookCopy = Workbook.createWorkbook(new File("output.xls"), existingWorkbook);
-            WritableSheet sheetToEdit = workbookCopy.getSheet(sheet.name());
+            System.out.println(student.toString());
+            randomAccessFile.seek(index * LINE_LENGTH);
+            System.out.println("asasas" + randomAccessFile.readLine());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            System.out.println("hata");
+        }
 
-            Label label = new Label(0, index.intValue(), student.toString());
-            sheetToEdit.addCell(label);
-            workbookCopy.write();
-            workbookCopy.close();
-            existingWorkbook.close();
+    }
+
+    public Student getStudent(HashModes sheet, Long index)
+    {
+        System.out.println("index : " + index);
+
+        File f = new File(sheet.name() + ".txt");
+        try
+        {
+            RandomAccessFile randomAccessFile = new RandomAccessFile(f, "r");
+            StringBuilder studentText = new StringBuilder();
+            randomAccessFile.seek(index * LINE_LENGTH);
+            for (int a = 0; a < LINE_LENGTH; a++)
+            {
+                String character = Character.toString((char) randomAccessFile.readByte());
+                studentText.append(character);
+            }
+            return new Student(studentText.toString());
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-        catch (BiffException e)
-        {
-            e.printStackTrace();
-        }
-        catch (RowsExceededException e)
-        {
-            e.printStackTrace();
-        }
-        catch (WriteException e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
-    public Student getCell(Long index)
-    {
-        return new Student();
+        return null;
     }
 
 }
