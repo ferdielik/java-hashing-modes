@@ -30,8 +30,11 @@ public class Main
 
         // 587363477;fdswvbcnnz;jwjveykcfa
 
-        Integer studentNumber = 325612784;
+        Integer studentNumber = 197984916;
+//        System.out.println(hashing.get(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE,studentNumber, true).toString());
+//        System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW, studentNumber, true).toString());
 //
+
         List<Student> students = databaseController.readFromFile();
         for(Student student : students)
         {

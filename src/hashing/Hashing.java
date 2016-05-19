@@ -28,7 +28,7 @@ public class Hashing
         String fileName = getFileName(hashMode, conflictMode);
         hashFileController.save(fileName, index, student);
     }
-
+    private Integer firstNumber = 0;
     public Student get(HashMode hashMode, ConflictMode conflictMode, Integer studentNumber, Boolean hashEnable)
     {
 //        System.out.println("found index  " + studentNumber);
@@ -36,6 +36,8 @@ public class Hashing
         if(hashEnable)
         {
             index = findIndex(hashMode, studentNumber);
+            firstNumber = studentNumber;
+
         }
 
         String fileName = getFileName(hashMode, conflictMode);
@@ -43,7 +45,10 @@ public class Hashing
         {
             return new Student();
         }
-        if(studentNumber.equals(hashFileController.getStudent(fileName,index).getId()))
+        Student studentt = hashFileController.getStudent(fileName,index);
+        System.out.println(studentt.toString());
+
+        if(firstNumber.equals(studentt.getId()))
         {
 //            System.out.println("          path : " + getFileName(hashMode, conflictMode) + "  " + index);
             return hashFileController.getStudent(fileName, index);
@@ -53,7 +58,7 @@ public class Hashing
         {
             newIndex = 1000;
         }
-//        System.out.println("new index  " + newIndex);
+        System.out.println("naew index  " + newIndex);
         return get(hashMode, conflictMode, newIndex, false);
     }
 
