@@ -18,8 +18,8 @@ public class Main
 
     public Main()
     {
-        System.out.println(hashRoot(123499999));
         createRandomTextDataBase(500);
+
 
         //readFromFile();
         // createHashTable(); //Taslak Hash Table
@@ -59,12 +59,14 @@ public class Main
     {
         int num1, num2, num3;
         int result = 0;
+
         num1 = code % 1000;
-        result += convertNumberToOpposite(num1);
+
+        result += reverseNumber(num1);
         num2 = (code % 1000000 - num1) / 1000;
         result += num2;
         num3 = (code - code % 1000000) / 1000000;
-        result += convertNumberToOpposite(num3);
+        result += reverseNumber(num3);
         return result;
     }
 
@@ -83,30 +85,16 @@ public class Main
         return Long.valueOf(ortasi);
     }
 
-    public int convertNumberToOpposite(int number)
+    public int reverseNumber(int number)
     {
-        int result = 0;
-        int j = 10;
-        for (int i = 0; i < sizeOfNumber(number); i++)
-        {
-            result += ((number % j - number % (j / 10)) / (int) Math.pow(10, i)) * (int) Math.pow(10, sizeOfNumber(number) - i - 1);
-            j *= 10;
-        }
-        return result;
-
+        StringBuffer numberText = new StringBuffer(String.valueOf(number));
+        String reversedNumber = numberText.reverse().toString();
+        return Integer.valueOf(reversedNumber);
     }
 
-    public int sizeOfNumber(int number)
+    public int sizeOfNumber(Integer number)
     {
-        int i = 1;
-        int j = 10;
-        while (number % j != number)
-        {
-            i++;
-            j *= 10;
-        }
-        return i;
-
+        return String.valueOf(number).length();
     }
 
     public Integer generateRandomID()
@@ -116,7 +104,7 @@ public class Main
 
     public String generateRandomName()
     {
-        Random r = new Random(); // just create one and keep it around
+        Random r = new Random();
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
         Integer N = randomWithRange(1, 10);
@@ -125,9 +113,8 @@ public class Main
         {
             sb.append(alphabet.charAt(r.nextInt(alphabet.length())));
         }
-        Integer space = randomWithRange(5, N); // İsime space eklenecek !
-        String randomName = sb.toString();
-        return randomName;
+
+        return sb.toString();
     }
 
 
@@ -138,44 +125,35 @@ public class Main
         return Integer.valueOf(String.valueOf((Math.random() * range) + min));
     }
 
-    public void readFromFile()
+    public List<Student> readFromFile()
     {
 
-        // The name of the file to open.
         String file = "Users.txt";
         List<Student> students = new ArrayList<>();
 
-        // This will reference one line at a time
         String line = null;
 
         try
         {
-            // FileReader reads text files in the default encoding.
             FileReader fileRead = new FileReader(file);
-
-            // Always wrap FileReader in BufferedReader.
             BufferedReader bufferedReader = new BufferedReader(fileRead);
 
             while ((line = bufferedReader.readLine()) != null)
             {
                 students.add(new Student(line));
             }
-            //System.out.print(hashDivision(Std_No));
-            // Always close files.
             bufferedReader.close();
         }
         catch (FileNotFoundException ex)
         {
-            System.out.println( "Unable to open file '" + file + "'");
+            System.out.println("Unable to open file '" + file + "'");
         }
         catch (IOException ex)
         {
             System.out.println("Error reading file '" + file + "'");
-            // Or we could just do this:
-            // ex.printStackTrace();
         }
+        return students;
     }
-
 
 }
 
