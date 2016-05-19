@@ -58,7 +58,7 @@ public class Hashing
         {
             newIndex = 1000;
         }
-        System.out.println("naew index  " + newIndex);
+//        System.out.println("naew index  " + newIndex);
         return get(hashMode, conflictMode, newIndex, false);
     }
 

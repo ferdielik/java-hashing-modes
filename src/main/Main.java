@@ -93,10 +93,6 @@ public class Main
         }
     }
 
-    public int sizeOfNumber(Integer number)
-    {
-        return String.valueOf(number).length();
-    }
 
 }
 
