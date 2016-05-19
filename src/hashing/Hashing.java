@@ -17,7 +17,8 @@ public class Hashing
     {
         FOLDING,
         MID_SQUARE,
-        DIVIDING_THE_REMAINING
+        DIVIDING_THE_REMAINING,
+        NONE
     }
 
     private static int DATA_LENGTH = 1511;
@@ -25,44 +26,9 @@ public class Hashing
 
     public void save(HashMode hashMode, ConflictMode conflictMode, Student student)
     {
-        Integer index = findIndexForSave(hashMode, conflictMode, student.getId());
+        Integer index = findIndex(hashMode, conflictMode, student.getId());
         String fileName = getFileName(hashMode, conflictMode);
         hashFileController.save(fileName, index, student);
-    }
-
-    private Integer firstNumber = 0;
-
-    public Student get(HashMode hashMode, ConflictMode conflictMode, Integer studentNumber, Boolean hashEnable)
-    {
-        //        System.out.println("found index  " + studentNumber);
-        Integer index = studentNumber;
-        if (hashEnable)
-        {
-            index = findIndex(hashMode, studentNumber);
-            firstNumber = studentNumber;
-
-        }
-
-        String fileName = getFileName(hashMode, conflictMode);
-        if (hashFileController.getStudent(fileName, index) == null)
-        {
-            return new Student();
-        }
-        Student studentt = hashFileController.getStudent(fileName, index);
-        System.out.println(studentt.toString());
-
-        if (firstNumber.equals(studentt.getId()))
-        {
-            //            System.out.println("          path : " + getFileName(hashMode, conflictMode) + "  " + index);
-            return hashFileController.getStudent(fileName, index);
-        }
-        Integer newIndex = index + 1;
-        if (ConflictMode.DISCRETE_OVERFLOW.equals(conflictMode) && index < 1000)
-        {
-            newIndex = 1000;
-        }
-        //        System.out.println("naew index  " + newIndex);
-        return get(hashMode, conflictMode, newIndex, false);
     }
 
     public Student get(HashMode hashMode, ConflictMode conflictMode, Integer studentNumber)
@@ -89,15 +55,15 @@ public class Hashing
         {
             index = midSquareFindIndex(number);
         }
-        else
+        else if (HashMode.FOLDING.equals(hashMode))
         {
             index = foldingFindIndex(number);
         }
 
-        return findConflictIndex(hashMode, conflictMode, index);
+        return fixConflict(hashMode, conflictMode, index);
     }
 
-    private Integer findConflictIndex(HashMode hashMode, ConflictMode conflictMode, Integer index)
+    private Integer fixConflict(HashMode hashMode, ConflictMode conflictMode, Integer index)
     {
         if (existStudents(hashMode, conflictMode, index))
         {
@@ -113,77 +79,9 @@ public class Hashing
                 return index;
             }
 
-            return findConflictIndex(hashMode, conflictMode, index);
+            return fixConflict(HashMode.NONE, conflictMode, index);
         }
 
-        return index;
-    }
-
-    public Integer findIndex(HashMode hashMode, Integer number)
-    {
-        if (HashMode.DIVIDING_THE_REMAINING.equals(hashMode))
-        {
-            return dividingTheRemainingFindIndex(number);
-        }
-        else if (HashMode.MID_SQUARE.equals(hashMode))
-        {
-            return midSquareFindIndex(number);
-        }
-        else
-        {
-            return foldingFindIndex(number);
-        }
-    }
-
-    private Integer findIndexForOverflow(HashMode hashMode, Integer number, Boolean hashEnable)
-    {
-        Integer index = number;
-        if (hashEnable)
-        {
-            index = findIndex(hashMode, number);
-        }
-
-        if (existStudents(hashMode, ConflictMode.DISCRETE_OVERFLOW, index))
-        {
-            if (index < 1000)
-            {
-                findIndexForOverflow(hashMode, 1000, false);
-            }
-            else
-            {
-                findIndexForOverflow(hashMode, index + 1, false);
-            }
-        }
-        return index;
-    }
-
-
-    public Integer findIndexForSave(HashMode hashMode, ConflictMode conflictMode, Integer number)
-    {
-        if (ConflictMode.DISCRETE_OVERFLOW.equals(conflictMode))
-        {
-            return findIndexForOverflow(hashMode, number, true);
-        }
-        else
-        {
-            return findIndexForLinear(hashMode, number, true);
-        }
-
-    }
-
-    private Integer findIndexForLinear(HashMode hashMode, Integer number, Boolean hashEnable)
-    {
-        Integer index = number;
-        if (hashEnable)
-        {
-            index = findIndex(hashMode, number);
-        }
-
-        if (existStudents(hashMode, ConflictMode.LINEAR_PROBE, index))
-        {
-//            System.out.println("cakisti new id " + number);
-            return findIndexForLinear(hashMode, index + 1, false);
-        }
         return index;
     }
 
