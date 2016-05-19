@@ -25,7 +25,7 @@ public class Main
     public Main()
     {
         hashFileController.createWorkBook();
-        databaseController.createRandomTextDataBase(250);
+        databaseController.createRandomTextDataBase(500);
         buildHashFiles();
 
         // 587363477;fdswvbcnnz;jwjveykcfa

@@ -119,7 +119,7 @@ public class Hashing
 
         if (existStudents(hashMode, ConflictMode.LINEAR_PROBE, index))
         {
-            System.out.println("cakisti");
+            System.out.println("cakisti new id" + number);
             return findIndexForLinear(hashMode, index + 1, false);
         }
         return index;
