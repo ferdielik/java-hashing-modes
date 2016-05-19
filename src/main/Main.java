@@ -13,7 +13,7 @@ public class Main
 {
     //controllers
     DatabaseController databaseController = new DatabaseController();
-    HashFileController hashFileController= new HashFileController();
+    HashFileController hashFileController = new HashFileController();
     Hashing hashing = new Hashing();
     // hashings
 
@@ -30,10 +30,10 @@ public class Main
             hashing.save(hashMode, conflictMode, student);
         }
 
-        for(Student student : studentList)
+        for (Student student : studentList)
         {
             Integer studentNumber = student.getId();
-            System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW, studentNumber, true).toString());
+            System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW, studentNumber).toString());
         }
 
         return 0;
