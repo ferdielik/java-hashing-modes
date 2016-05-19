@@ -6,12 +6,12 @@ public class Student
     private String name;
     private String surname;
 
-    Student()
+    public Student()
     {
 
     }
 
-    Student(String text)
+    public Student(String text)
     {
         String[] parts = text.split(";");
 

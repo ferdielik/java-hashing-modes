@@ -1,29 +1,89 @@
-package main;
+package samples;
+
+import jxl.read.biff.BiffException;
+
+import jxl.write.WriteException;
+import main.Student;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.util.*;
 
 /*
-     hash dosyalarının total boyutu 1217 olsun , asal sayı kullanılması daha iyi.
-     (tüm fonksiyonlar 1217 ye göre dizayn))
+      hash dosyalar˝n˝n total boyutu 1217 olsun , asal say˝ kullan˝lmas˝ daha iyi.
+     (t¸m fonksiyonlar 1217 ye gˆre dizayn))
  */
-public class Main
+public class sample
 {
     public static int dataLength = 1217;
 
-    public static void main(String[] args)
-    {
-        new Main();
+    public static void main(String[] args) throws WriteException, IOException, BiffException {
+        new sample();
     }
 
-    public Main()
+    public sample()
+            throws BiffException, IOException, WriteException
     {
-        System.out.println(hashRoot(123499999));
-        createRandomTextDataBase(500);
+        createRandomExcelDataBase();
+
 
         //readFromFile();
         // createHashTable(); //Taslak Hash Table
     }
+
+    public void createRandomExcelDataBase() throws BiffException, IOException, WriteException
+    {
+
+        //Blank workbook
+        XSSFWorkbook workbook = new XSSFWorkbook();
+
+        //Create a blank sheet
+        XSSFSheet sheet = workbook.createSheet("Employee Data");
+
+        //This data needs to be written (Object[])
+        Map<String, Object[]> data = new TreeMap<String, Object[]>();
+        data.put("1", new Object[] {"ID", "NAME", "LASTNAME"});
+        data.put("2", new Object[] {1, "Amit", "Shukla"});
+        data.put("3", new Object[] {2, "Lokesh", "Gupta"});
+        data.put("4", new Object[] {3, "John", "Adwards"});
+        data.put("5", new Object[] {4, "Brian", "Schultz"});
+
+        //Iterate over data and write to sheet
+        Set<String> keyset = data.keySet();
+        int rownum = 0;
+        for (String key : keyset)
+        {
+            XSSFRow row = sheet.createRow(rownum++);
+            Object [] objArr = data.get(key);
+            int cellnum = 0;
+            for (Object obj : objArr)
+            {
+                XSSFCell cell = row.createCell(cellnum++);
+                if(obj instanceof String)
+                    cell.setCellValue((String)obj);
+                else if(obj instanceof Integer)
+                    cell.setCellValue((Integer)obj);
+            }
+        }
+        try
+        {
+            //Write the workbook in file system
+            FileOutputStream out = new FileOutputStream(new File("howtodoinjava_demo.xlsx"));
+            workbook.write(out);
+            out.close();
+            System.out.println("howtodoinjava_demo.xlsx written successfully on disk.");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     public void createRandomTextDataBase(int size)
@@ -77,7 +137,7 @@ public class Main
         Long root = lastFive * lastFive;
 
         String rootText = String.valueOf(root);
-        System.out.println(rootText);
+        //System.out.println(rootText);
         int a = (rootText.length() / 2) - 2;
         String ortasi = rootText.substring(a, a + 3);
         return Long.valueOf(ortasi);
@@ -125,7 +185,7 @@ public class Main
         {
             sb.append(alphabet.charAt(r.nextInt(alphabet.length())));
         }
-        Integer space = randomWithRange(5, N); // İsime space eklenecek !
+        Integer space = randomWithRange(5, N); // ›sime space eklenecek !
         String randomName = sb.toString();
         return randomName;
     }

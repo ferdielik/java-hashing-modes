@@ -17,14 +17,15 @@ import jxl.write.WriteException;
 
 public class ExcelExample
 {
-    public static void main(String[] args)
-            throws BiffException, IOException, WriteException
+    public static void main(String[] args) throws BiffException, IOException, WriteException
     {
         WritableWorkbook wworkbook;
         wworkbook = Workbook.createWorkbook(new File("output.xls"));
-        WritableSheet wsheet = wworkbook.createSheet("First Sheet", 0);
+        WritableSheet wsheet = wworkbook.createSheet("Hash", 0);
+        WritableSheet wsheet2 = wworkbook.createSheet("Hash2", 1);
         Label label = new  Label(0, 2, "A label record");
         wsheet.addCell(label);
+        wsheet2.addCell(label);
         Number number = new Number(3, 4, 3.1459);
         wsheet.addCell(number);
         wworkbook.write();
