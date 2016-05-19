@@ -1,7 +1,7 @@
 package hashing;
 
 import controller.HashFileController;
-import controller.HashFileController.HashModes;
+import controller.HashFileController.HashMode;
 import main.Student;
 
 /**
@@ -9,29 +9,42 @@ import main.Student;
  */
 public class FoldingHashing implements Hashing
 {
+    private static int DATA_LENGTH = 1217;
     HashFileController hashFileController = new HashFileController();
 
     @Override
     public void addWithLinearProbe(Student student)
     {
-        Long index = findIndex(student.getId());
+        Integer index = findLinearIndex(student.getId());
         // cakisma kontrolleri eklenmeli
-        hashFileController.save(HashModes.foldingLinear, index, student);
+        hashFileController.save(HashMode.foldingLinear, index, student);
     }
 
     @Override
     public void addWithDiscreteLeash(Student student)
     {
-        Long index = findIndex(student.getId());
+        Integer index = findIndex(student.getId());
         // cakisma kontrolleri eklenmeli
-        hashFileController.save(HashModes.folding, index, student);
+        hashFileController.save(HashMode.folding, index, student);
     }
 
     @Override
     public Student getStudent(Integer studentNumber)
     {
-        Long index = findIndex(studentNumber);
-        return hashFileController.getStudent(HashModes.folding, index);
+        Integer index = findIndex(studentNumber);
+        return hashFileController.getStudent(HashMode.folding, index);
+    }
+
+    @Override
+    public boolean existStudents(Integer index)
+    {
+        return hashFileController.isExist(HashMode.midSquare, index);
+    }
+
+    @Override
+    public boolean existStudentsLinear(Integer index)
+    {
+        return hashFileController.isExist(HashMode.midSquareLinear, index);
     }
 
     //    public static void main(String[] argvs)
@@ -44,7 +57,17 @@ public class FoldingHashing implements Hashing
     //        System.out.println(findIndex(123456789));
     //    }
 
-    private Long findIndex(int code)
+    private Integer findLinearIndex(int code)
+    {
+        Integer index = findIndex(code);
+        if (existStudentsLinear(index))
+        {
+            return findLinearIndex(code + 1);
+        }
+        return index;
+    }
+
+    private Integer findIndex(int code)
     {
         int num1, num2, num3;
         int result = 0;
@@ -56,7 +79,8 @@ public class FoldingHashing implements Hashing
         result += num2;
         num3 = (code - code % 1000000) / 1000000;
         result += reverseNumber(num3);
-        return Long.valueOf(result);
+
+        return result % DATA_LENGTH;
     }
 
     private int reverseNumber(int number)

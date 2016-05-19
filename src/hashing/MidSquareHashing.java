@@ -1,7 +1,7 @@
 package hashing;
 
 import controller.HashFileController;
-import controller.HashFileController.HashModes;
+import controller.HashFileController.HashMode;
 import main.Student;
 
 /**
@@ -9,54 +9,55 @@ import main.Student;
  */
 public class MidSquareHashing implements Hashing
 {
-
+    private static int DATA_LENGTH = 1217;
     HashFileController hashFileController = new HashFileController();
 
     @Override
     public void addWithLinearProbe(Student student)
     {
-        Long index = findIndex(student.getId());
-        hashFileController.save(HashModes.midSquareLinear, index, student);
+        Integer index = findLinearIndex(student.getId());
+        hashFileController.save(HashMode.midSquareLinear, index, student);
     }
 
     @Override
     public void addWithDiscreteLeash(Student student)
     {
-        Long index = findIndex(student.getId());
-        hashFileController.save(HashModes.midSquare, index, student);
+        Integer index = findIndex(student.getId());
+        hashFileController.save(HashMode.midSquare, index, student);
     }
 
     @Override
     public Student getStudent(Integer studentNumber)
     {
-        Long index = findIndex(studentNumber);
-        return hashFileController.getStudent(HashModes.midSquare, index);
+        Integer index = findIndex(studentNumber);
+        return hashFileController.getStudent(HashMode.midSquare, index);
     }
-//
-//    public static void main(String[] argvs)
-//    {
-//        new MidSquareHashing();
-//    }
-//
-//    public MidSquareHashing()
-//    {
-//        System.out.println(findDeneme(123456789));
-//        System.out.println(findIndex(123456789));
-//    }
 
-    private int findDeneme(int x)
+    @Override
+    public boolean existStudents(Integer index)
     {
-        /**
-         * http://www.brpreiss.com/books/opus5/html/page214.html
-         */
-
-        int k = 10; // M==1024
-        int w = 32;
-
-        return (x * x) >>> (w - k);
+        return hashFileController.isExist(HashMode.midSquare, index);
     }
 
-    private Long findIndex(int code)
+    @Override
+    public boolean existStudentsLinear(Integer index)
+    {
+        return hashFileController.isExist(HashMode.midSquareLinear, index);
+    }
+
+
+    private Integer findLinearIndex(int code)
+    {
+        Integer index = findIndex(code);
+        if (existStudentsLinear(index))
+        {
+            System.out.println("sended code :" + code + 1);
+            return findLinearIndex(code + 1);
+        }
+        return index;
+    }
+
+    private Integer findIndex(int code)
     {
         /*
         son 5 hanesinin karesinin orta 3 hanesi
@@ -65,9 +66,9 @@ public class MidSquareHashing implements Hashing
         Long root = lastFive * lastFive;
 
         String rootText = String.valueOf(root);
-        //        System.out.println(rootText);
+        System.out.println("roottext = " + rootText + "   code: " + code);
         int a = (rootText.length() / 2) - 2;
         String ortasi = rootText.substring(a, a + 3);
-        return Long.valueOf(ortasi);
+        return Integer.valueOf(ortasi) % DATA_LENGTH;
     }
 }

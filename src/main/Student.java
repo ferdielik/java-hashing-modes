@@ -12,9 +12,9 @@ public class Student {
     public Student(String text) {
         String[] parts = text.split(";");
 
-        this.id = Integer.valueOf(parts[2]);
-        this.name = parts[0];
-        this.surname = parts[1];
+        this.id = Integer.valueOf(parts[0]);
+        this.name = parts[1];
+        this.surname = parts[2];
     }
 
     public Integer getId() {

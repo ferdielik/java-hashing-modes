@@ -81,7 +81,7 @@ public class DatabaseController
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
         //Integer N = randomWithRange(1, 10);
-        Integer N = 5;
+        Integer N = 10;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++)
         {

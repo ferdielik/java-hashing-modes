@@ -1,12 +1,17 @@
 package hashing;
 
+import controller.HashFileController.HashMode;
 import main.Student;
 
 public interface Hashing
 {
-    public void addWithLinearProbe(Student student);
+    void addWithLinearProbe(Student student);
 
-    public void addWithDiscreteLeash(Student student);
+    void addWithDiscreteLeash(Student student);
 
     Student getStudent(Integer studentNumber);
+
+    boolean existStudents(Integer index);
+
+    boolean existStudentsLinear(Integer index);
 }

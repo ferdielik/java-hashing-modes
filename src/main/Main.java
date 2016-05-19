@@ -27,15 +27,15 @@ public class Main
 
     public Main()
     {
-        databaseController.createRandomTextDataBase(10);
         hashFileController.createWorkBook();
+        databaseController.createRandomTextDataBase(100);
+        buildHashFiles();
 
-//        buildHashFiles();
         // rjotp;sfxqk;467188023 -- ornek ogrenci
 
 //        System.out.println(dividingTheRemainingHashing.getStudent(467188023).toString());
-        System.out.println(midSquareHashing.getStudent(467188023));
-        System.out.println(foldingHashing.getStudent(467188023));
+//        System.out.println(midSquareHashing.getStudent(467188023));
+//        System.out.println(foldingHashing.getStudent(467188023));
 
 
     }
@@ -45,13 +45,13 @@ public class Main
         List<Student> studentList = databaseController.readFromFile();
         for(Student student: studentList)
         {
-            dividingTheRemainingHashing.addWithDiscreteLeash(student);
+//            dividingTheRemainingHashing.addWithDiscreteLeash(student);
             dividingTheRemainingHashing.addWithLinearProbe(student);
 
-            midSquareHashing.addWithDiscreteLeash(student);
+//            midSquareHashing.addWithDiscreteLeash(student);
             midSquareHashing.addWithLinearProbe(student);
 
-            foldingHashing.addWithDiscreteLeash(student);
+//            foldingHashing.addWithDiscreteLeash(student);
             foldingHashing.addWithLinearProbe(student);
         }
     }

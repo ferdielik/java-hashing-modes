@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,9 +13,9 @@ import main.Student;
  */
 public class HashFileController
 {
-    private static int LINE_LENGTH = 21;
+    private static int LINE_LENGTH = 31;
 
-    public enum HashModes
+    public enum HashMode
     {
         midSquare,
         midSquareLinear,
@@ -26,22 +27,22 @@ public class HashFileController
 
     public void createWorkBook()
     {
-//        try
-//        {
-//            for (HashModes sheet : HashModes.values())
-//            {
-//                PrintWriter writer = new PrintWriter(sheet.name() + ".txt", "UTF-8");
-//                writer.close();
-//            }
-//
-//        }
-//        catch (IOException e)
-//        {
-//            e.printStackTrace();
-//        }
+        try
+        {
+            for (HashMode sheet : HashMode.values())
+            {
+                PrintWriter writer = new PrintWriter(sheet.name() + ".txt", "UTF-8");
+                writer.close();
+            }
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    public void save(HashModes sheet, Long index, Student student)
+    public void save(HashMode sheet, Integer index, Student student)
     {
         try
         {
@@ -51,7 +52,7 @@ public class HashFileController
             randomAccessFile.seek(index * LINE_LENGTH);
             randomAccessFile.write(student.toString().getBytes());
 
-            System.out.println(student.toString());
+            System.out.println("save -- " + student.toString());
             randomAccessFile.seek(index * LINE_LENGTH);
             System.out.println("asasas" + randomAccessFile.readLine());
         }
@@ -63,11 +64,32 @@ public class HashFileController
 
     }
 
-    public Student getStudent(HashModes sheet, Long index)
+    public boolean isExist(HashMode hashMode, Integer index)
+    {
+        File f = new File(hashMode.name() + ".txt");
+        try
+        {
+            RandomAccessFile randomAccessFile = new RandomAccessFile(f, "r");
+            randomAccessFile.seek(index * LINE_LENGTH);
+            String character = Character.toString((char) randomAccessFile.readByte());
+            return !character.equals("\u0000");
+        }
+        catch (EOFException eofExceptione)
+        {
+            return false;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Student getStudent(HashMode hashMode, Integer index)
     {
         System.out.println("index : " + index);
 
-        File f = new File(sheet.name() + ".txt");
+        File f = new File(hashMode.name() + ".txt");
         try
         {
             RandomAccessFile randomAccessFile = new RandomAccessFile(f, "r");
@@ -75,10 +97,19 @@ public class HashFileController
             randomAccessFile.seek(index * LINE_LENGTH);
             for (int a = 0; a < LINE_LENGTH; a++)
             {
+                System.out.println("focused     " + index * LINE_LENGTH);
                 String character = Character.toString((char) randomAccessFile.readByte());
+                if (character.equals("\u0000"))
+                {
+                    return null;
+                }
                 studentText.append(character);
             }
-            return new Student(studentText.toString());
+            if (isNotEmpty(studentText.toString()))
+            {
+                System.out.println("aslkjalk -- " + studentText.toString());
+                return new Student(studentText.toString());
+            }
         }
         catch (IOException e)
         {
@@ -87,7 +118,12 @@ public class HashFileController
         return null;
     }
 
-
+    public boolean isNotEmpty(String line)
+    {
+        return !line.equals("\u0000\u0000\u0000\u0000\u0000\u0000" +
+                "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+                "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000");
+    }
 
 
 }

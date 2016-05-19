@@ -23,7 +23,8 @@ public class Sample
     {
         new Sample();
     }
-    private static int LINE_LENGTH = 21;
+
+    private static int LINE_LENGTH = 31;
 
     Sample() throws IOException
     {
@@ -56,33 +57,32 @@ public class Sample
 
 
         StringBuilder deneme = new StringBuilder("");
-        islem.seek(0 * LINE_LENGTH);
-        for(int a=0; a<LINE_LENGTH; a++)
+        islem.seek(1 * LINE_LENGTH);
+        for (int a = 0; a < LINE_LENGTH; a++)
         {
-            String dene = Character.toString ((char) islem.readByte());
+            String dene = Character.toString((char) islem.readByte());
             deneme.append(dene);
         }
-        System.out.println(deneme.toString());
+        System.out.println(deneme.toString() + " equal : " + deneme.toString().equals("\u0000\u0000\u0000\u0000\u0000\u0000" +
+                "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+                "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"));
 
 
         deneme = new StringBuilder("");
         islem.seek(2 * LINE_LENGTH);
-        for(int a=0; a<LINE_LENGTH; a++)
+        for (int a = 0; a < LINE_LENGTH; a++)
         {
-            String dene = Character.toString ((char) islem.readByte());
+            String dene = Character.toString((char) islem.readByte());
             deneme.append(dene);
         }
         System.out.println(deneme.toString());
 
-//
-//        byte[] b2 = {1, 2, 3, 4, 5, 6, 7, 8};
-//
-//        System.out.println(islem.read(b2,0,10));
+        //
+        //        byte[] b2 = {1, 2, 3, 4, 5, 6, 7, 8};
+        //
+        //        System.out.println(islem.read(b2,0,10));
 
     }
-
-
-
 
 
     private static String getFileChecksum(MessageDigest digest, File file) throws IOException
@@ -95,9 +95,11 @@ public class Sample
         int bytesCount = 0;
 
         //Read file data and update in message digest
-        while ((bytesCount = fis.read(byteArray)) != -1) {
+        while ((bytesCount = fis.read(byteArray)) != -1)
+        {
             digest.update(byteArray, 0, bytesCount);
-        };
+        }
+        ;
 
         //close the stream; We don't need it now.
         fis.close();
@@ -108,7 +110,7 @@ public class Sample
         //This bytes[] has bytes in decimal format;
         //Convert it to hexadecimal format
         StringBuilder sb = new StringBuilder();
-        for(int i=0; i< bytes.length ;i++)
+        for (int i = 0; i < bytes.length; i++)
         {
             sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
         }
@@ -119,22 +121,24 @@ public class Sample
 
     // iki fonksiyon düzenlenecek !!!!
 
-    private static Integer checkForLinear(File abc ,int code )
+    private static Integer checkForLinear(File abc, int code)
     {
         while (true)
         {
-            if(checkClear(code) == true)
+            if (checkClear(code) == true)
             {
                 return code;
-            }else
+            }
+            else
             {
-                code = (code +1)%LINE_LENGTH;
+                code = (code + 1) % LINE_LENGTH;
             }
         }
 
     }
 
-    private static boolean checkClear(int code) {
+    private static boolean checkClear(int code)
+    {
 
         return false;
     }
