@@ -24,9 +24,6 @@ public class Main
 
     private Integer test(HashMode hashMode, ConflictMode conflictMode)
     {
-        hashFileController.createWorkBook();
-        databaseController.createRandomTextDataBase(500);
-
         List<Student> studentList = databaseController.readFromFile();
         for (Student student : studentList)
         {
@@ -44,6 +41,8 @@ public class Main
 
     public Main()
     {
+        hashFileController.createWorkBook();
+        databaseController.createRandomTextDataBase(500);
         test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW);
         test(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW);
         test(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE);
