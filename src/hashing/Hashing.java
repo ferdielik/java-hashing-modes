@@ -87,22 +87,21 @@ public class Hashing
 
     private Integer midSquareFindIndex(Integer number)
     {
-        /*
-        son 5 hanesinin karesinin orta 3 hanesi
+        /**
+         * http://www.brpreiss.com/books/opus5/html/page214.html
          */
-        Long lastFive = number % 100000L;
-        Long root = lastFive * lastFive;
 
-        String rootText = String.valueOf(root);
-        int a = (rootText.length() / 2) - 2;
-        String ortasi = rootText.substring(a, a + 3);
-        return Integer.valueOf(ortasi) % DATA_LENGTH;
+        int k = 10; // M==1024
+        int w = 32;
+
+        Integer hashed =  (number * number) >>> (w - k) ;
+        return hashed % DATA_LENGTH;
     }
 
     private Integer foldingFindIndex(Integer number)
     {
         /**
-         *
+         * 399630850
          * 492715066
          * num1 = 066
          * result = 660

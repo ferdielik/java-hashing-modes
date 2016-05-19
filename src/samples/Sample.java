@@ -26,51 +26,60 @@ public class Sample
 
     private static int LINE_LENGTH = 31;
 
+    private Integer midSquareFindIndex(Integer number)
+    {
+        /*
+        son 5 hanesinin karesinin orta 3 hanesi
+         */
+        Long lastFive = number % 100000L;
+        Long root = lastFive * lastFive;
+
+        String rootText = String.valueOf(root);
+        int a = (rootText.length() / 2) - 2;
+        //        System.out.println("Number : " + number + ",  rootText  : " + rootText + ",   lastFive : " +
+        // lastFive);
+
+        String ortasi = rootText.substring(a, a + 3);
+        return Integer.valueOf(ortasi) % 1511;
+    }
+
+    private Integer anothermidSquare(Integer x)
+    {
+        /**
+         * http://www.brpreiss.com/books/opus5/html/page214.html
+         */
+
+        int k = 10; // M==1024
+        int w = 32;
+
+        return (x * x) >>> (w - k) ;
+    }
+
+    static int a[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000};
+
+    static int middleSquareNumber(int numb, int dig)
+    {
+        int sqn = numb * numb, next_num = 0;
+        int trim = (dig / 2);
+        sqn = sqn / a[trim];
+        for (int i = 0; i < dig; i++)
+        {
+            next_num += (sqn % (a[trim])) * (a[i]);
+            sqn = sqn / 10;
+        }
+        return next_num;
+    }
+
     Sample() throws IOException
     {
-        String file = "deneme.txt";
-        PrintWriter writer = new PrintWriter(file, "UTF-8");
-        List<Student> students = databaseController.readFromFile();
+        //        System.out.println("midSquareFindIndex - > " + midSquareFindIndex(162400006));
+        System.out.println("anothermidSquare - > " + anothermidSquare(162400006));
+        System.out.println("middleSquareNumber - > " + middleSquareNumber(162400006, 3));
 
-        Student student = students.get(0);
-        Student student2 = students.get(2);
-        Student student4 = students.get(4);
-
-
-        writer.println("deneme");
-        writer.println("deneme2");
-        writer.close();
-
-        File f = new File("deneme.txt");
-        RandomAccessFile islem = new RandomAccessFile(f, "rw");
-        byte veri = islem.readByte();
-        System.out.println((char) veri);
-
-        islem.seek(4 * LINE_LENGTH);
-        islem.write(student4.toString().getBytes());
-
-        islem.seek(0 * LINE_LENGTH);
-        islem.write(student.toString().getBytes());
-
-        islem.seek(2 * LINE_LENGTH);
-        islem.write(student2.toString().getBytes());
-
-
-        StringBuilder deneme = new StringBuilder("");
-        islem.seek(1 * LINE_LENGTH);
-        for (int a = 0; a < LINE_LENGTH; a++)
-        {
-            String dene = Character.toString((char) islem.readByte());
-            deneme.append(dene);
-        }
-        deneme = new StringBuilder("");
-        islem.seek(2 * LINE_LENGTH);
-        for (int a = 0; a < LINE_LENGTH; a++)
-        {
-            String dene = Character.toString((char) islem.readByte());
-            deneme.append(dene);
-        }
-
+        System.out.println("");
+        System.out.println("midSquareFindIndex - > " + midSquareFindIndex(492715066));
+        System.out.println("anothermidSquare - > " + anothermidSquare(492715066));
+        System.out.println("middleSquareNumber - > " + middleSquareNumber(492715066, 3));
     }
 
 
