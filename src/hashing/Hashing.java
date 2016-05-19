@@ -29,19 +29,21 @@ public class Hashing
         hashFileController.save(fileName, index, student);
     }
 
-    public Student get(HashMode hashMode, ConflictMode conflictMode, Integer studentNumber)
+    public Student get(HashMode hashMode, ConflictMode conflictMode, Integer studentNumber, Boolean hashEnable)
     {
-        Integer index = findIndex(hashMode, studentNumber);
+        Integer index = studentNumber;
+        if(hashEnable)
+        {
+            index = findIndex(hashMode, studentNumber);
+        }
+
         String fileName = getFileName(hashMode, conflictMode);
-        if(hashFileController.getStudent(fileName,index).getId() == studentNumber)
+        if(studentNumber.equals(hashFileController.getStudent(fileName,index).getId()))
         {
             return hashFileController.getStudent(fileName, index);
         }
-        else
-        {
 
-        }
-        return hashFileController.getStudent(fileName,index) ;
+        return get(hashMode, conflictMode, index + 1, false) ;
 
     }
 

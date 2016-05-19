@@ -24,18 +24,20 @@ public class Main
 
     public Main()
     {
-        hashFileController.createWorkBook();
-        databaseController.createRandomTextDataBase(100);
-        buildHashFiles();
+//        hashFileController.createWorkBook();
+//        databaseController.createRandomTextDataBase(100);
+//        buildHashFiles();
 
-        // 255415565;lluoktzwgs;fsidukrpff -- ornek ogrenci
+        // 587363477;fdswvbcnnz;jwjveykcfa
 
-//        System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW, 255415565).toString());
-//        System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE, 255415565).toString());
-//        System.out.println(hashing.get(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW,255415565).toString());
-//        System.out.println(hashing.get(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE,255415565).toString());
-//        System.out.println(hashing.get(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW,255415565).toString());
-//        System.out.println(hashing.get(HashMode.FOLDING, ConflictMode.LINEAR_PROBE,255415565).toString());
+        Integer studentNumber = 587363477;
+//
+        System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW, studentNumber, true).toString());
+        System.out.println(hashing.get(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE, studentNumber, true).toString());
+        System.out.println(hashing.get(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW,studentNumber, true).toString());
+        System.out.println(hashing.get(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE,studentNumber, true).toString());
+        System.out.println(hashing.get(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW,studentNumber, true).toString());
+        System.out.println(hashing.get(HashMode.FOLDING, ConflictMode.LINEAR_PROBE,studentNumber, true).toString());
 
 
     }
