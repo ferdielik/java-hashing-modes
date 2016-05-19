@@ -31,7 +31,7 @@ public class FoldingHashing implements Hashing
     @Override
     public Student getStudent(Integer studentNumber)
     {
-        Integer index = findIndex(studentNumber);
+        Integer index = findLinearIndex(studentNumber);
         return hashFileController.getStudent(HashMode.folding, index);
     }
 
@@ -46,6 +46,14 @@ public class FoldingHashing implements Hashing
     {
         return hashFileController.isExist(HashMode.midSquareLinear, index);
     }
+
+    @Override
+    public Student getStudentLinear(Integer studentNumber)
+    {
+        Integer index = findLinearIndex(studentNumber);
+        return hashFileController.getStudent(HashMode.foldingLinear, index);
+    }
+
 
     //    public static void main(String[] argvs)
     //    {

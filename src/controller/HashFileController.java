@@ -97,7 +97,7 @@ public class HashFileController
             randomAccessFile.seek(index * LINE_LENGTH);
             for (int a = 0; a < LINE_LENGTH; a++)
             {
-                System.out.println("focused     " + index * LINE_LENGTH);
+                System.out.println("focused " + hashMode.name() + "    " + index * LINE_LENGTH);
                 String character = Character.toString((char) randomAccessFile.readByte());
                 if (character.equals("\u0000"))
                 {
@@ -110,6 +110,10 @@ public class HashFileController
                 System.out.println("aslkjalk -- " + studentText.toString());
                 return new Student(studentText.toString());
             }
+        }
+        catch (EOFException eofException)
+        {
+            return null;
         }
         catch (IOException e)
         {

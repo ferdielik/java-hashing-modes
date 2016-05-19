@@ -11,6 +11,8 @@ public interface Hashing
 
     Student getStudent(Integer studentNumber);
 
+    Student getStudentLinear(Integer studentNumber);
+
     boolean existStudents(Integer index);
 
     boolean existStudentsLinear(Integer index);

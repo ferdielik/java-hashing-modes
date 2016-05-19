@@ -36,6 +36,13 @@ public class DividingTheRemainingHashing implements Hashing
     }
 
     @Override
+    public Student getStudentLinear(Integer studentNumber)
+    {
+        Integer index = findLinearIndex(studentNumber);
+        return hashFileController.getStudent(HashMode.dividingTheRemainingLinear, index);
+    }
+
+    @Override
     public boolean existStudents(Integer index)
     {
         return hashFileController.isExist(HashMode.midSquare, index);

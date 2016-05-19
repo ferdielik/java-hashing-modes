@@ -45,6 +45,13 @@ public class MidSquareHashing implements Hashing
         return hashFileController.isExist(HashMode.midSquareLinear, index);
     }
 
+    @Override
+    public Student getStudentLinear(Integer studentNumber)
+    {
+        Integer index = findLinearIndex(studentNumber);
+        return hashFileController.getStudent(HashMode.midSquareLinear, index);
+    }
+
 
     private Integer findLinearIndex(int code)
     {
