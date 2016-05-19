@@ -33,8 +33,18 @@ public class Hashing
     {
         Integer index = findIndex(hashMode, studentNumber);
         String fileName = getFileName(hashMode, conflictMode);
-        return hashFileController.getStudent(fileName, index);
+        if(hashFileController.getStudent(fileName,index).getId() == studentNumber)
+        {
+            return hashFileController.getStudent(fileName, index);
+        }
+        else
+        {
+
+        }
+        return hashFileController.getStudent(fileName,index) ;
+
     }
+
 
     private Integer findIndex(HashMode hashMode, Integer number)
     {
@@ -73,6 +83,7 @@ public class Hashing
         }
         return index;
     }
+
 
     private Integer findIndexForSave(HashMode hashMode, ConflictMode conflictMode, Integer number)
     {
