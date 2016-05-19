@@ -57,13 +57,13 @@ public class Hashing
         Integer index = findIndex(hashMode, number);
         if (existStudents(hashMode, ConflictMode.DISCRETE_OVERFLOW, index))
         {
-            if (number < 1000)
+            if (index < 1000)
             {
                 findIndexForOverflow(hashMode, 1000);
             }
             else
             {
-                findIndexForOverflow(hashMode, number + 1);
+                findIndexForOverflow(hashMode, index + 1);
             }
         }
         return index;
