@@ -63,11 +63,6 @@ public class Sample
             String dene = Character.toString((char) islem.readByte());
             deneme.append(dene);
         }
-        System.out.println(deneme.toString() + " equal : " + deneme.toString().equals("\u0000\u0000\u0000\u0000\u0000\u0000" +
-                "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-                "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"));
-
-
         deneme = new StringBuilder("");
         islem.seek(2 * LINE_LENGTH);
         for (int a = 0; a < LINE_LENGTH; a++)
@@ -75,12 +70,6 @@ public class Sample
             String dene = Character.toString((char) islem.readByte());
             deneme.append(dene);
         }
-        System.out.println(deneme.toString());
-
-        //
-        //        byte[] b2 = {1, 2, 3, 4, 5, 6, 7, 8};
-        //
-        //        System.out.println(islem.read(b2,0,10));
 
     }
 

@@ -58,7 +58,6 @@ public class MidSquareHashing implements Hashing
         Integer index = findIndex(code);
         if (existStudentsLinear(index))
         {
-            System.out.println("sended code :" + code + 1);
             return findLinearIndex(code + 1);
         }
         return index;
@@ -73,7 +72,6 @@ public class MidSquareHashing implements Hashing
         Long root = lastFive * lastFive;
 
         String rootText = String.valueOf(root);
-        System.out.println("roottext = " + rootText + "   code: " + code);
         int a = (rootText.length() / 2) - 2;
         String ortasi = rootText.substring(a, a + 3);
         return Integer.valueOf(ortasi) % DATA_LENGTH;

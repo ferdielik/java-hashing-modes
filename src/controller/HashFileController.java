@@ -52,14 +52,11 @@ public class HashFileController
             randomAccessFile.seek(index * LINE_LENGTH);
             randomAccessFile.write(student.toString().getBytes());
 
-            System.out.println("save -- " + student.toString());
             randomAccessFile.seek(index * LINE_LENGTH);
-            System.out.println("asasas" + randomAccessFile.readLine());
         }
         catch (IOException e)
         {
             e.printStackTrace();
-            System.out.println("hata");
         }
 
     }
@@ -87,7 +84,6 @@ public class HashFileController
 
     public Student getStudent(HashMode hashMode, Integer index)
     {
-        System.out.println("index : " + index);
 
         File f = new File(hashMode.name() + ".txt");
         try
@@ -97,7 +93,6 @@ public class HashFileController
             randomAccessFile.seek(index * LINE_LENGTH);
             for (int a = 0; a < LINE_LENGTH; a++)
             {
-                System.out.println("focused " + hashMode.name() + "    " + index * LINE_LENGTH);
                 String character = Character.toString((char) randomAccessFile.readByte());
                 if (character.equals("\u0000"))
                 {
@@ -107,7 +102,6 @@ public class HashFileController
             }
             if (isNotEmpty(studentText.toString()))
             {
-                System.out.println("aslkjalk -- " + studentText.toString());
                 return new Student(studentText.toString());
             }
         }

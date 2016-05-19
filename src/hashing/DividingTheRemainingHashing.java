@@ -59,7 +59,6 @@ public class DividingTheRemainingHashing implements Hashing
         Integer index = findIndex(code);
         if (existStudentsLinear(index))
         {
-            System.out.println("Cakisti : " + index);
             return findLinearIndex(code + 1);
         }
         return index;
