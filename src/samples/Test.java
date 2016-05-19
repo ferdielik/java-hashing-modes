@@ -1,5 +1,6 @@
 package samples;
 
+import controller.HashFileController;
 import hashing.Hashing;
 import hashing.Hashing.ConflictMode;
 import hashing.Hashing.HashMode;
@@ -10,9 +11,11 @@ import hashing.Hashing.HashMode;
 public class Test
 {
     Hashing hashing = new Hashing();
+    HashFileController hashFileController = new HashFileController();
 
     Test()
     {
+        hashFileController.createWorkBook();
         for( HashMode hashMode : HashMode.values())
         {
             if(HashMode.NONE.equals(hashMode))
