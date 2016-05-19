@@ -6,35 +6,27 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 
+import hashing.Hashing.ConflictMode;
+import hashing.Hashing.HashMode;
 import main.Student;
 
-/**
- * Bu arkadas ile excele yazma okuma islemlerini yapariz
- */
 public class HashFileController
 {
     private static int LINE_LENGTH = 31;
-
-    public enum HashMode
-    {
-        midSquare,
-        midSquareLinear,
-        folding,
-        foldingLinear,
-        dividingTheRemaining,
-        dividingTheRemainingLinear
-    }
 
     public void createWorkBook()
     {
         try
         {
-            for (HashMode sheet : HashMode.values())
+            for (HashMode hashMode : HashMode.values())
             {
-                PrintWriter writer = new PrintWriter(sheet.name() + ".txt", "UTF-8");
-                writer.close();
+                for (ConflictMode conflictMode : ConflictMode.values())
+                {
+                    String fileName = hashMode.name().toLowerCase() + "_" + conflictMode.name().toLowerCase() + ".txt";
+                    PrintWriter writer = new PrintWriter(fileName, "UTF-8");
+                    writer.close();
+                }
             }
-
         }
         catch (IOException e)
         {
@@ -42,11 +34,11 @@ public class HashFileController
         }
     }
 
-    public void save(HashMode sheet, Integer index, Student student)
+    public void save(String fileName, Integer index, Student student)
     {
         try
         {
-            File f = new File(sheet.name() + ".txt");
+            File f = new File(fileName);
             RandomAccessFile randomAccessFile = new RandomAccessFile(f, "rw");
 
             randomAccessFile.seek(index * LINE_LENGTH);
@@ -61,9 +53,9 @@ public class HashFileController
 
     }
 
-    public boolean isExist(HashMode hashMode, Integer index)
+    public boolean isExist(String fileName, Integer index)
     {
-        File f = new File(hashMode.name() + ".txt");
+        File f = new File(fileName);
         try
         {
             RandomAccessFile randomAccessFile = new RandomAccessFile(f, "r");
@@ -82,10 +74,9 @@ public class HashFileController
         return false;
     }
 
-    public Student getStudent(HashMode hashMode, Integer index)
+    public Student getStudent(String fileName, Integer index)
     {
-
-        File f = new File(hashMode.name() + ".txt");
+        File f = new File(fileName);
         try
         {
             RandomAccessFile randomAccessFile = new RandomAccessFile(f, "r");
