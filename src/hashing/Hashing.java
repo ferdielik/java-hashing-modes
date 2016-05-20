@@ -49,7 +49,8 @@ public class Hashing
 
         Student student = hashFileController.getStudent(fileName, index);
 
-        System.out.println("founded index :" + index + " student number : " + studentNumber + " student : " + student + "  filename : " + fileName);
+        System.out.print("founded index :" + index + " student number : " + studentNumber + " student : " + student + "  filename : " + fileName);
+        System.out.println(" correct result : " + student.getId().equals(studentNumber));
         return student;
     }
 
@@ -75,7 +76,6 @@ public class Hashing
     private Integer fixConflict(String fileName, ConflictMode conflictMode, Process process, Integer index, Integer studentNumber)
     {
 //        System.out.println("pre conflict : index : " + index + " student number : " + studentNumber + " exist : " + existStudents(fileName, index));
-//        System.out.println();
         if (existStudents(fileName, index))
         {
             if(Process.READ.equals(process) && isCorrectResult(fileName, index, studentNumber))
@@ -89,7 +89,7 @@ public class Hashing
             {
                 index = 1000;
             }
-            return fixConflict(fileName, ConflictMode.NONE, process, index, studentNumber);
+            return fixConflict(fileName, conflictMode, process, index, studentNumber);
 
         }
 
