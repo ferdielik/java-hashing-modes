@@ -21,19 +21,25 @@ public class Hashing
         NONE
     }
 
+    public enum Process
+    {
+        READ,
+        WRITE
+    }
+
     private static int DATA_LENGTH = 1511;
     private HashFileController hashFileController = new HashFileController();
 
     public void save(HashMode hashMode, ConflictMode conflictMode, Student student)
     {
-        Integer index = findIndex(hashMode, conflictMode, student.getId());
+        Integer index = findIndex(hashMode, conflictMode, Process.WRITE, student.getId());
         String fileName = getFileName(hashMode, conflictMode);
         hashFileController.save(fileName, index, student);
     }
 
     public Student get(HashMode hashMode, ConflictMode conflictMode, Integer studentNumber)
     {
-        Integer index = findIndex(hashMode, ConflictMode.NONE, studentNumber);
+        Integer index = findIndex(hashMode, conflictMode, Process.READ, studentNumber);
         String fileName = getFileName(hashMode, conflictMode);
 
         if (hashFileController.getStudent(fileName, index) == null)
@@ -41,10 +47,13 @@ public class Hashing
             return new Student();
         }
 
-        return hashFileController.getStudent(fileName, index);
+        Student student = hashFileController.getStudent(fileName, index);
+
+        System.out.println("founded index :" + index + " student number : " + studentNumber + " student : " + student + "  filename : " + fileName);
+        return student;
     }
 
-    public Integer findIndex(HashMode hashMode, ConflictMode conflictMode, Integer number)
+    public Integer findIndex(HashMode hashMode, ConflictMode conflictMode, Process process,  Integer number)
     {
         Integer index = -1;
         if (HashMode.DIVIDING_THE_REMAINING.equals(hashMode))
@@ -59,42 +68,50 @@ public class Hashing
         {
             index = foldingFindIndex(number);
         }
-
-        return fixConflict(hashMode, conflictMode, index);
+        String fileName = getFileName(hashMode, conflictMode);
+        return fixConflict(fileName,  conflictMode, process, index , number);
     }
 
-    private Integer fixConflict(HashMode hashMode, ConflictMode conflictMode, Integer index)
+    private Integer fixConflict(String fileName, ConflictMode conflictMode, Process process, Integer index, Integer studentNumber)
     {
-        if (existStudents(hashMode, conflictMode, index))
+//        System.out.println("pre conflict : index : " + index + " student number : " + studentNumber + " exist : " + existStudents(fileName, index));
+//        System.out.println();
+        if (existStudents(fileName, index))
         {
+            if(Process.READ.equals(process) && isCorrectResult(fileName, index, studentNumber))
+            {
+                return index;
+            }
+
             index++;
 
             if (ConflictMode.DISCRETE_OVERFLOW.equals(conflictMode) && index < 1000)
             {
                 index = 1000;
             }
+            return fixConflict(fileName, ConflictMode.NONE, process, index, studentNumber);
 
-            if (ConflictMode.NONE.equals(conflictMode) && isCorrectResult(hashMode, conflictMode, index))
-            {
-                return index;
-            }
-
-            return fixConflict(HashMode.NONE, conflictMode, index);
         }
 
         return index;
     }
 
+    private Integer dividingTheRemainingFindIndex(Integer number)
+    {
+        return number % DATA_LENGTH;
+    }
+
     private Integer midSquareFindIndex(Integer number)
     {
         /**
+         * kare ortasi
          * http://www.brpreiss.com/books/opus5/html/page214.html
          */
 
         int k = 10; // M==1024
         int w = 32;
 
-        Integer hashed =  (number * number) >>> (w - k) ;
+        Integer hashed = (number * number) >>> (w - k);
         return hashed % DATA_LENGTH;
     }
 
@@ -123,32 +140,27 @@ public class Hashing
         return (num1 + num2 + num3) % DATA_LENGTH;
     }
 
-    private Integer dividingTheRemainingFindIndex(Integer number)
+
+    private boolean existStudents(String fileName, Integer index)
     {
-        return number % DATA_LENGTH;
+        return hashFileController.isExist(fileName, index);
+    }
+
+    private boolean isCorrectResult(String fileName, Integer index, Integer studentNumber)
+    {
+        Student student = hashFileController.getStudent(fileName, index);
+//        System.out.println("isCorrectResult : index " + index + "student number " + studentNumber + "    : " + studentNumber.equals(student.getId()));
+        return studentNumber.equals(student.getId());
+    }
+
+    private String getFileName(HashMode hashMode, ConflictMode conflictMode)
+    {
+        return hashMode.name().toLowerCase() + "_" + conflictMode.name().toLowerCase() + ".txt";
     }
 
     private Integer reverse(String number)
     {
         StringBuffer numberText = new StringBuffer(number);
         return Integer.valueOf(numberText.reverse().toString());
-    }
-
-    private boolean existStudents(HashMode hashMode, ConflictMode conflictMode, Integer index)
-    {
-        String fileName = getFileName(hashMode, conflictMode);
-        return hashFileController.isExist(fileName, index);
-    }
-
-    private boolean isCorrectResult(HashMode hashMode, ConflictMode conflictMode, Integer index)
-    {
-        String fileName = getFileName(hashMode, conflictMode);
-        Student student = hashFileController.getStudent(fileName, index);
-        return index.equals(student.getId());
-    }
-
-    private String getFileName(HashMode hashMode, ConflictMode conflictMode)
-    {
-        return hashMode.name().toLowerCase() + "_" + conflictMode.name().toLowerCase() + ".txt";
     }
 }

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
+import java.util.Locale;
 
 import hashing.Hashing.ConflictMode;
 import hashing.Hashing.HashMode;
@@ -13,6 +14,7 @@ import main.Student;
 public class HashFileController
 {
     private static int LINE_LENGTH = 31;
+    private static Locale LOCALE = new Locale("en-EN");
 
     public void createWorkBook()
     {
@@ -22,7 +24,8 @@ public class HashFileController
             {
                 for (ConflictMode conflictMode : ConflictMode.values())
                 {
-                    String fileName = hashMode.name().toLowerCase() + "_" + conflictMode.name().toLowerCase() + ".txt";
+                    String fileName = hashMode.name().toLowerCase(LOCALE) + "_" + conflictMode.name().toLowerCase
+                            (LOCALE) + ".txt";
                     PrintWriter writer = new PrintWriter(fileName, "UTF-8");
                     writer.close();
                 }
@@ -41,11 +44,11 @@ public class HashFileController
             File f = new File(fileName);
             RandomAccessFile randomAccessFile = new RandomAccessFile(f, "rw");
 
-            randomAccessFile.seek(index * LINE_LENGTH);
+            randomAccessFile.seek((index * LINE_LENGTH));
             randomAccessFile.write(student.toString().getBytes());
-
-            randomAccessFile.seek(index * LINE_LENGTH);
             randomAccessFile.close();
+
+            System.out.println("student saved for index : " + index + "   student number : " + student.getId() + " file name " + fileName);
         }
         catch (IOException e)
         {
@@ -60,11 +63,13 @@ public class HashFileController
         try
         {
             RandomAccessFile randomAccessFile = new RandomAccessFile(f, "r");
-            randomAccessFile.seek(index * LINE_LENGTH);
+            randomAccessFile.seek((index * LINE_LENGTH));
+            //            System.out.println("look at :" + (index * LINE_LENGTH));
             String character = Character.toString((char) randomAccessFile.readByte());
+            randomAccessFile.close();
             return !character.equals("\u0000");
         }
-        catch (EOFException eofExceptione)
+        catch (EOFException eofException)
         {
             return false;
         }
@@ -83,28 +88,30 @@ public class HashFileController
             RandomAccessFile randomAccessFile = new RandomAccessFile(f, "r");
             StringBuilder studentText = new StringBuilder();
             randomAccessFile.seek(index * LINE_LENGTH);
-            for (int a = 0; a < LINE_LENGTH; a++)
-            {
-                String character = Character.toString((char) randomAccessFile.readByte());
-                if (character.equals("\u0000"))
-                {
-                    randomAccessFile.close();
-                    return null;
-                }
-                studentText.append(character);
-            }
 
-            if (isNotEmpty(studentText.toString()))
+            try
             {
+
+                for (int a = 0; a < LINE_LENGTH; a++)
+                {
+                    String character = Character.toString((char) randomAccessFile.readByte());
+                    if (character.equals("\u0000"))
+                    {
+                        randomAccessFile.close();
+                        return null;
+                    }
+                    studentText.append(character);
+                }
+
                 randomAccessFile.close();
                 return new Student(studentText.toString());
             }
-            randomAccessFile.close();
+            catch (EOFException eofException)
+            {
+                randomAccessFile.close();
+                return new Student();
+            }
 
-        }
-        catch (EOFException eofException)
-        {
-            return null;
         }
         catch (IOException e)
         {
@@ -112,13 +119,4 @@ public class HashFileController
         }
         return null;
     }
-
-    public boolean isNotEmpty(String line)
-    {
-        return !line.equals("\u0000\u0000\u0000\u0000\u0000\u0000" +
-                "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-                "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000");
-    }
-
-
 }

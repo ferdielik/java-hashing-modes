@@ -1,6 +1,5 @@
 package main;
 
-
 import java.util.List;
 import java.util.Locale;
 
@@ -12,22 +11,37 @@ import hashing.Hashing.HashMode;
 
 public class Main
 {
-    //controllers
     DatabaseController databaseController = new DatabaseController();
     HashFileController hashFileController = new HashFileController();
     Hashing hashing = new Hashing();
 
     Integer minSpeed = Integer.MAX_VALUE;
     String minSpeedName = "";
-    // hashings
 
     public static void main(String[] args)
     {
         new Main();
     }
 
-    private void test(HashMode hashMode, ConflictMode conflictMode)
+    public Main()
     {
+        hashFileController.createWorkBook();
+        databaseController.createRandomTextDataBase(500);
+
+        runHashMethod(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW);
+        runHashMethod(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW);
+        runHashMethod(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE);
+        runHashMethod(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW);
+        runHashMethod(HashMode.FOLDING, ConflictMode.LINEAR_PROBE);
+        runHashMethod(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE);
+
+        System.out.println("Fast method : " + minSpeedName + "   speed : " + minSpeed + " ms");
+
+    }
+
+    private void runHashMethod(HashMode hashMode, ConflictMode conflictMode)
+    {
+        String prettyName = getPrettyName(hashMode, conflictMode);
         long startTime = System.currentTimeMillis();
         List<Student> studentList = databaseController.readFromFile();
 
@@ -39,39 +53,27 @@ public class Main
         for (Student student : studentList)
         {
             Integer studentNumber = student.getId();
-            System.out.println(hashing.get(hashMode, conflictMode, studentNumber).toString());
+            hashing.get(hashMode, conflictMode, studentNumber).toString();
+//            System.out.println(hashing.get(hashMode, conflictMode, studentNumber).toString());
         }
+
         long estimatedTime = System.currentTimeMillis() - startTime;
+
         Integer speed = Integer.valueOf(String.valueOf(estimatedTime));
+
         if (speed < minSpeed)
         {
             minSpeed = speed;
-            minSpeedName = hashMode.name() + " " + conflictMode.name();
+            minSpeedName = prettyName;
         }
-        System.out.println("--------------------------" + hashMode.name() + "------------" + conflictMode.name() + estimatedTime + "ms");
 
+        System.out.println("------------- " + prettyName + " ------------- time: " + estimatedTime + " ms");
     }
 
-    public Main()
+    private String getPrettyName(HashMode hashMode, ConflictMode conflictMode)
     {
-        hashFileController.createWorkBook();
-        databaseController.createRandomTextDataBase(500);
-
-        test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.DISCRETE_OVERFLOW);
-        test(HashMode.MID_SQUARE, ConflictMode.DISCRETE_OVERFLOW);
-        test(HashMode.MID_SQUARE, ConflictMode.LINEAR_PROBE);
-        test(HashMode.FOLDING, ConflictMode.DISCRETE_OVERFLOW);
-        test(HashMode.FOLDING, ConflictMode.LINEAR_PROBE);
-        test(HashMode.DIVIDING_THE_REMAINING, ConflictMode.LINEAR_PROBE);
-
-
-        System.out.println("Fast method : " + getPrettyName(minSpeedName) + "   speed : " + minSpeed + " ms");
-
-    }
-
-    private String getPrettyName(String minSpeedName)
-    {
-        return minSpeedName.toString().toLowerCase(new Locale("en-US")).toString().replace("_", " ");
+        String name = hashMode.name() + " " + conflictMode.name();
+        return name.toString().toLowerCase(new Locale("en-US")).toString().replace("_", " ");
     }
 }
 
