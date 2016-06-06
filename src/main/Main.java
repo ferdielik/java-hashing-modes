@@ -11,6 +11,7 @@ import hashing.Hashing.HashMode;
 
 public class Main
 {
+	// weolcome to endustri meslek
     DatabaseController databaseController = new DatabaseController();
     HashFileController hashFileController = new HashFileController();
     Hashing hashing = new Hashing();
@@ -23,6 +24,7 @@ public class Main
         new Main();
     }
 
+	// butlerede kaldik ..
     public Main()
     {
         hashFileController.createWorkBook();
